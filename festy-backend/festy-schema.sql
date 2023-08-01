@@ -8,7 +8,7 @@ CREATE TABLE festivals (
     image_url VARCHAR(255) NOT NULL,
     website_url VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
 );
 
 CREATE TABLE artists (
@@ -18,7 +18,7 @@ CREATE TABLE artists (
     image_url VARCHAR(255) NOT NULL,
     website_url VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
 );
 CREATE TABLE acts (
     id SERIAL PRIMARY KEY,
@@ -27,20 +27,21 @@ CREATE TABLE acts (
     artist_id INTEGER
         REFERENCES artists(id),
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
 );
 
 CREATE TABLE divdata(
     id SERIAL PRIMARY KEY,
     act_id INTEGER REFERENCES acts(id),
-    divdata TEXT NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+    left INTEGER NOT NULL,
+    top INTEGER NOT NULL,
+    width INTEGER NOT NULL,
+    height INTEGER NOT NULL,
 );
 
 CREATE TABLE users (
     username VARCHAR(25) PRIMARY KEY,
     password TEXT NOT NULL,
     email TEXT NOT NULL CHECK (position('@' IN email) > 1),
-    is_admin BOOLEAN NOT NULL DEFAULT FALSE
+    is_admin BOOLEAN NOT NULL DEFAULT FALSE,
 );
