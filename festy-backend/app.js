@@ -8,10 +8,10 @@ const cors = require("cors");
 const { NotFoundError } = require("./expressError");
 
 const { authenticateJWT } = require("./middleware/auth");
-const authRoutes = require("./routes/auth");
-const companiesRoutes = require("./routes/companies");
+const festivalsRoutes = require("./routes/festivals");
+const artistsRoutes = require("./routes/artists");
 const usersRoutes = require("./routes/users");
-const jobsRoutes = require("./routes/jobs");
+const authRoutes = require("./routes/auth");
 
 const morgan = require("morgan");
 
