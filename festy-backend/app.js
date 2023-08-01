@@ -19,7 +19,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://jobly-gmacfarquhar.surge.sh",
+    origin: "https://localhost:5000",
   })
 )
 app.use(express.json());
