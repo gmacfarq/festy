@@ -27,9 +27,9 @@ app.use(morgan("tiny"));
 app.use(authenticateJWT);
 
 app.use("/auth", authRoutes);
-app.use("/companies", companiesRoutes);
+app.use("/festivals", festivalsRoutes);
+app.use("/artists", artistsRoutes);
 app.use("/users", usersRoutes);
-app.use("/jobs", jobsRoutes);
 
 
 /** Handle 404 errors -- this matches everything */

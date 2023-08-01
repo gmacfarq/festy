@@ -1,4 +1,12 @@
 {
+  "name": "festy-backend",
+  "version": "0.1",
+  "description": "festival playlist app backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
   "dependencies": {
     "bcrypt": "^5.1.0",
     "consolidate": "^1.0.1",
