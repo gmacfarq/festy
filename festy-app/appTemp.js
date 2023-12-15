@@ -44,7 +44,6 @@ passport.use(
     function (accessToken, refreshToken, expires_in, profile, done) {
       // asynchronous verification, for effect...
       process.nextTick(function () {
-        User
         return done(null, profile);
       });
     }
@@ -129,6 +128,8 @@ app.get('/logout', function (req, res) {
     res.redirect('/');
   });
 });
+
+
 
 app.listen(port, function () {
   console.log('App is listening on port ' + port);
