@@ -7,8 +7,8 @@
 -Bounding box creation for artists
 
 # TODO
--Refresh spotify auth tokens
--Store information about users/artists/festivals in database
+-Refresh Spotify auth tokens
+-Store information about users/artists/festivals in a database
 -Allow artist edit and fixing
 -make it PRETTY
 
