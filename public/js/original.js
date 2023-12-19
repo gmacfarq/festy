@@ -207,7 +207,7 @@ function allowDrawing() {
 
     addWord($rectangle);
 
-  });
+  }); 
 }
 
 let words = [];
