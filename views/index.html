@@ -1,10 +1,17 @@
 {% extends 'layout.html' %}
+{% block head %}
+<link rel="stylesheet" href="/stylesheets/home.css">
+{% endblock %}
 
 {% block content %}
-{% if not user %}
-	<h2>Welcome! Please log in.</h2>
-	<p><a href="/login">login</a></p>
-{% else %}
-	<h2>Hello, {{ user.display_name }}.</h2>
-{% endif %}
+<div class="squiggle-frame">
+
+		<img class="squiggle" src="images/squiggle.png" style="left: 0%; top: 0%;" />
+		<img class="squiggle" src="images/squiggle.png" style="left: 2%; top: -2%;" />
+		<img class="squiggle" src="images/squiggle.png" style="left: 4%; top: -4%;" />
+		<img class="squiggle" src="images/squiggle.png" style="left: 6%; top: -6%;" />
+		<img class="squiggle" src="images/squiggle.png" style="left: 8%; top: -8%;" />
+
+</div>
+
 {% endblock %}
