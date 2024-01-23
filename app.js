@@ -37,11 +37,11 @@ var spotifyApi = new SpotifyWebApi({
 
 
 app.get('/', async (req, res) => {
-  if(spotifyApi.getAccessToken()) {
-    const { body } = await spotifyApi.getMe();
-    res.render('index.html', { user: body });
+  if (spotifyApi.getAccessToken()) {
+    currUser = req.session.currUser.body;
+    res.render('index.html', { user: currUser });
   }
-  else{
+  else {
     res.render('index.html');
   }
 });
@@ -54,29 +54,47 @@ app.get(authCallbackPath, async (req, res) => {
   const { body } = await spotifyApi.authorizationCodeGrant(req.query.code);
   spotifyApi.setAccessToken(body['access_token']);
   spotifyApi.setRefreshToken(body['refresh_token']);
+  console.log(body);
+
+  req.session.currUser = await spotifyApi.getMe();
+
   res.redirect('/');
 });
 
 app.get('/logout', (req, res) => {
-  spotifyApi.resetAccessToken();
-  spotifyApi.resetRefreshToken();
-  res.redirect('/');
+
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+    }
+    spotifyApi.resetAccessToken();
+    spotifyApi.resetRefreshToken();
+    res.redirect('/');
+  });
 });
 
-app.get('/account', ensureLoggedIn, async (req, res) => {
-  const { body } = await spotifyApi.getMe();
-  res.render('account.html', { user: body });
+app.get('/profile', ensureLoggedIn, async (req, res) => {
+  currUser = req.session.currUser.body;
+  console.log(currUser);
+
+  res.render('profile.html', { user: currUser });
 });
 
 app.get('/playlists', ensureLoggedIn, async (req, res) => {
   const { body } = await spotifyApi.getUserPlaylists();
-  console.log(body);
-  res.render('playlists.html', { playlists: body.items });
+  currUser = req.session.currUser.body;
+  res.render('playlists.html', { playlists: body.items, user: currUser });
 });
 
-app.get('/submit', ensureLoggedIn, async (req, res) => {
-  const { body } = await spotifyApi.getMe();
-  res.render('submit.html', { user: body });
+
+app.get('/festivals', async (req, res) => {
+  currUser = req.session.currUser?.body;
+  res.render('festivals.html', { user: currUser });
+});
+
+app.get('/feed', async (req, res) => {
+  currUser = req.session.currUser?.body;
+  res.render('feed.html', { user: currUser });
 });
 
 
@@ -86,33 +104,8 @@ app.get('/submit', ensureLoggedIn, async (req, res) => {
  */
 
 function ensureLoggedIn(req, res, next) {
-  if (spotifyApi.getAccessToken()) return next();
+  if (req.session.currUser) return next();
   throw new UnauthorizedError();
-}
-
-
-/**
- * Sends request to flask API with image in multipart/form-data
- * Returns response with response.data structure
- * {
- *  boxes: [...,['C','1784','2187','1839','2254'],...]
- *  dim: [int(img_height), int(img_width)]
- *  msg:'success'
- * }
- * @param {file} file image file
-*/
-async function uploadImage(file) {
-
-  let formData = new FormData();
-  formData.append("file", file);
-
-  const response = await axios.post(IMAGE_ENDPOINT, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    }
-  });
-
-  return response;
 }
 
 /** Handle 404 errors -- this matches everything */
