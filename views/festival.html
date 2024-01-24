@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<h1>Festival Details</h1>
+
+<div class="festival">
+    <h2>{{ festival.name }}</h2>
+    <p>Date: {{ festival.date }}</p>
+    <!-- <p>Location: {{ festival.location }}</p> -->
+</div>
+
+<h2>Acts</h2>
+<ul>
+    {% for act in festival.acts %}
+    <li>{{ act.artist_name }}</li>
+    {% endfor %}
+</ul>
+
+<p><a href="/">Back to Homepage</a></p>
+{% endblock %}

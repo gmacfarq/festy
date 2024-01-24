@@ -2,7 +2,6 @@
 <link rel="stylesheet" href="/stylesheets/festivals.css">
 {% endblock %}
 {% extends 'layout.html' %} {% block content %}
-<p>testing</p>
 <div class="squiggle-frame">
 
   <img class="squiggle" src="images/squiggle-vertical.png" style="left: 5%;" />
@@ -13,5 +12,19 @@
 
 </div>
 
-
+{% for festival in festivals %}
+<div class="festival">
+  <!-- <div class="festival-image">
+    <img src="{{ festival.image }}" />
+  </div> -->
+  <div class="festival-info">
+    <h2>{{ festival.name }}</h2>
+    <!-- <p>{{ festival.location }}</p> -->
+    <p>{{ festival.date }}</p>
+    <!-- <p>{{ festival.website }}</p> -->
+  </div>
+  <p><a href="/festivals/{festival.id}">Make a Playlist</a></p>
+</div>
+{% endfor %}
 {% endblock %}
+

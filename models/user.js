@@ -1,0 +1,33 @@
+"use strict";
+
+const db = require("../db");
+const {
+  NotFoundError,
+  BadRequestError,
+  UnauthorizedError,
+} = require("../expressError");
+
+class User {
+  static async checkUserExists(spotifyUserId) {
+    // Check if the user exists in the database
+    const result = await db.query(
+      `SELECT spotify_user_id
+      FROM users
+      WHERE spotify_user_id = $1`,
+      [spotifyUserId]
+    );
+    return result.rows.length > 0;
+  }
+
+  static async createUser(spotifyUserId, displayName) {
+    // Create a new user record in the database
+    const result = await db.query(
+      `INSERT INTO users (spotify_user_id, username)
+      VALUES ($1, $2)
+      RETURNING spotify_user_id, username`,
+      [spotifyUserId, displayName]
+    );
+  }
+}
+
+module.exports = User;
