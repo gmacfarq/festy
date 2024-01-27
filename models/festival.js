@@ -66,7 +66,7 @@ class Festival {
       WHERE id = $1`;
 
     const actsQuery = `
-      SELECT ar.id AS artist_id, ar.name AS artist_name, ar.popularity
+      SELECT ar.id AS artist_id, ar.spotify_id, ar.name AS artist_name, ar.popularity
       FROM acts a
       JOIN artists ar ON a.artist_id = ar.id
       WHERE a.event_id = $1

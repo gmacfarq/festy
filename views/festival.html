@@ -10,11 +10,19 @@
 </div>
 
 <h2>Acts</h2>
-<ul>
-    {% for act in festival.acts %}
-    <li>{{ act.artist_name }}</li>
-    {% endfor %}
-</ul>
+<form method="post" action="/festivals/{{ festival.id }}">
+  <ul>
+      {% for act in festival.acts %}
+      <li>
+          {{ act.artist_name }}
+          <input type="hidden" name="artistIds[]" value="{{ act.spotify_id }}">
+          <label for="trackCount{{ act.artist_id }}">Number of Tracks:</label>
+          <input type="number" name="trackCounts[]" id="trackCount{{ act.artist_id }}" min="1" value="1">
+      </li>
+      {% endfor %}
+  </ul>
+  <button type="submit">Submit</button>
+</form>
 
 <p><a href="/">Back to Homepage</a></p>
 {% endblock %}

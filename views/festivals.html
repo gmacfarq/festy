@@ -23,8 +23,9 @@
     <p>{{ festival.date }}</p>
     <!-- <p>{{ festival.website }}</p> -->
   </div>
-  <p><a href="/festivals/{festival.id}">Make a Playlist</a></p>
+
 </div>
+<a href="/festivals/{{ festival.id }}">Make a Playlist</a>
 {% endfor %}
 {% endblock %}
 
