@@ -12,20 +12,33 @@
 
 </div>
 
-{% for festival in festivals %}
-<div class="festival">
-  <!-- <div class="festival-image">
-    <img src="{{ festival.image }}" />
-  </div> -->
-  <div class="festival-info">
-    <h2>{{ festival.name }}</h2>
-    <!-- <p>{{ festival.location }}</p> -->
-    <p>{{ festival.date }}</p>
-    <!-- <p>{{ festival.website }}</p> -->
+<div class="header">
+  <h1 class="title-text">Upcoming Festivals</h1>
+  <form class="search-form" method="get">
+    <div class="search-box">
+      <input class="search-input" type="text" placeholder="Search festivals...">
+    </div>
+  </form>
+</div>
+<div class="festivals">
+  {% for festival in festivals %}
+  <div class="festival">
+    <div class="festival-name-container">
+      <h2 class="border-text"> {{ festival.name }}</h2>
+    </div>
+
+    <div class="festival-information-container">
+      <!-- Add a bunch of information about the
+        festival and maybe a picture later -->
+    </div>
+    <a href="/festivals/{{ festival.id }}">
+      <div class="make-playlist-button">
+        <h2 class="border-text">Make a Playlist</h2>
+      </div>
+    </a>
   </div>
+  {% endfor %}
 
 </div>
-<a href="/festivals/{{ festival.id }}">Make a Playlist</a>
-{% endfor %}
-{% endblock %}
 
+{% endblock %}

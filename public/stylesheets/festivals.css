@@ -1,12 +1,13 @@
-.squiggle-frame{
+.squiggle-frame {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 92vh;
     position: absolute;
-    top:8%;
+    top: 8%;
     overflow: hidden;
+    z-index: -1;
 }
 
 .squiggle {
@@ -18,4 +19,114 @@
     position: absolute;
     top: 0;
     z-index: -1;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 8vh;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+
+.search-box {
+    border-radius: 60px;
+    border-color: transparent;
+    overflow: hidden;
+}
+
+.search-input {
+    border-radius: 60px;
+    border-color: transparent;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 12px;
+    font-family: Lexend, sans-serif;
+}
+
+.search-input:focus {
+    border-color: transparent;
+    outline: none;
+    box-shadow: none;
+}
+
+.title-text {
+    text-align: center;
+    color: white;
+    font-size: 36px;
+    font-family: Lexend, sans-serif;
+    font-weight: 700;
+    word-wrap: break-word;
+}
+
+
+
+
+
+.festivals {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.festival {
+    width: 327px;
+    height: 364px;
+    position: relative;
+}
+
+.festival-name-container {
+    width: 100%;
+    border-top-left-radius: 60px;
+    border-top-right-radius: 60px;
+    height: 20%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.festival-information-container {
+    width: 100%;
+    height: 60%;
+    background: linear-gradient(118deg, rgba(149, 153, 255, 1) 0%, rgb(133, 100, 164) 100%);
+
+}
+
+.make-playlist-button {
+    width: 100%;
+    height: 20%;
+    border-bottom-left-radius: 60px;
+    border-bottom-right-radius: 60px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.make-playlist-button:hover {
+    background: linear-gradient(28deg, rgba(149, 153, 255, 1) 0%, rgb(133, 100, 164) 100%);
+    color: white;
+}
+
+.make-playlist-button:hover .border-text {
+    color: white;
+}
+
+.border-text {
+    text-align: center;
+    color: #480077;
+    font-size: 24px;
+    font-family: Lexend, sans-serif;
+    font-weight: 700;
+    word-wrap: break-word;
 }
