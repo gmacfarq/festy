@@ -9,11 +9,32 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend">
 	<link rel="stylesheet" href="/stylesheets/layout.css">
+	<script src="/javascripts/navbar.js"></script>
 	{% block head %}{% endblock %}
 </head>
 
 <body>
-
+	<div class="nav-bar-mobile">
+		<img class="festy-icon" src="/images/festy-icon.png" />
+		<img class="menu-icon" src="/images/menu-icon.svg" />
+	</div>
+	{% if not user %}
+	<div class="dropdown">
+		<div class="tab"><a href="/festivals">Festivals</a></div>
+		<div class="tab"><a href="/">Home</a></div>
+		<div class="tab"><a href="/feed">Feed</a></div>
+		<div class="tab"><a href="/login">Log In</a></div>
+	</div>
+	{% else %}
+	<div class="dropdown">
+		<div class="tab"><a href="/playlists">Playlists</a></div>
+		<div class="tab"><a href="/festivals">Festivals</a></div>
+		<div class="tab"><a href="/">Home</a></div>
+		<div class="tab"><a href="/feed">Feed</a></div>
+		<div class="tab"><a href="/profile">Profile</a></div>
+		<div class="tab"><a href="/logout">Log Out</a></div>
+	</div>
+	{% endif %}
 	<div class="nav-bar">
 		<img class="festy-icon" src="/images/festy-icon.png" />
 		{% if not user %}
