@@ -5,6 +5,11 @@
     align-items: center;
     gap: 80px;
 }
+    @media (max-width: 500px) {
+        .playlist-creation-container {
+            flex-direction: column;
+        }
+    }
 
 .festival {
     width: 327px;
@@ -36,6 +41,7 @@
     padding: 5px;
     gap: 5px;
     overflow-y: scroll;
+    padding-bottom: 30px;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -94,6 +100,7 @@
     padding: 5px;
     gap: 5px;
     overflow-y: scroll;
+    padding-bottom: 30px;
 
 }
 
@@ -109,8 +116,10 @@
 }
 
 .artist .track-count {
-    width: 40px; /* Adjust as needed */
-    height: 20px; /* Adjust as needed */
+    width: 40px;
+    /* Adjust as needed */
+    height: 20px;
+    /* Adjust as needed */
     border: 1px solid #ccc;
     border-radius: 5px;
     text-align: center;
@@ -132,4 +141,49 @@
     font-family: Lexend, sans-serif;
     font-weight: 700;
     word-wrap: break-word;
+}
+
+/* Button */
+.playlist-button {
+    background: linear-gradient(118deg, rgba(149, 153, 255, 1) 0%, rgb(133, 100, 164) 100%);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-family: Lexend, sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.playlist-button:hover {
+    background: linear-gradient(208deg, rgba(228.46, 118.57, 118.57) 0%, rgb(133, 100, 164) 100%);
+    transition: 0.3s;
+}
+
+.button-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.track-count {
+    max-width: 30px;
+    background: transparent;;
+    max-width: 30px;
+    outline: none;
+    font-family: inherit;
+    color: white;
+
+}
+
+.header{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+    color: white;
+    font-family: Lexend, sans-serif;
 }
