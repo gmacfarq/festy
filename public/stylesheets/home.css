@@ -1,7 +1,7 @@
 /* Home page styles */
 .squiggle {
-    max-width: 100%;
-    min-height: 110vh;
+    min-width: 110vw;
+    max-height: 110vh;
     width: auto;
     height: auto;
     display: block;
