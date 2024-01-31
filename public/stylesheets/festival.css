@@ -108,6 +108,23 @@
     font-family: Lexend, sans-serif;
 }
 
+.artist .track-count {
+    width: 40px; /* Adjust as needed */
+    height: 20px; /* Adjust as needed */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Optional: Hide the spin button on the input */
+.artist .track-count::-webkit-outer-spin-button,
+.artist .track-count::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+
 .border-text {
     text-align: center;
     color: #480077;
