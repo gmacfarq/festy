@@ -31,16 +31,6 @@ body {
     z-index: 2;
 }
 
-.squiggle-frame {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: -1;
-
-}
 
 
 .nav-bar-mobile {
