@@ -1,15 +1,16 @@
+{% extends 'layout.html' %}
 {% block head %}
 <link rel="stylesheet" href="/stylesheets/playlists.css">
 {% endblock %}
-{% extends 'layout.html' %} {% block content %}
+{% block content %}
+<!-- <div class="squiggle-frame"> -->
+
+<img class="squiggle" src="images/squiggle-vertical.png" style="left: 5%;" />
+<img class="squiggle" src="images/squiggle-vertical.png" style="left: 25%;" />
+<img class="squiggle" src="images/squiggle-vertical.png" style="left: 45%;" />
+<img class="squiggle" src="images/squiggle-vertical.png" style="left: 65%;" />
+<img class="squiggle" src="images/squiggle-vertical.png" style="left: 85%;" />
+
+<!-- </div> -->
 <p>Playlists</p>
-<div class="squiggle-frame">
-
-  <img class="squiggle" src="images/squiggle-vertical.png" style="left: 5%;" />
-  <img class="squiggle" src="images/squiggle-vertical.png" style="left: 25%;" />
-  <img class="squiggle" src="images/squiggle-vertical.png" style="left: 45%;" />
-  <img class="squiggle" src="images/squiggle-vertical.png" style="left: 65%;" />
-  <img class="squiggle" src="images/squiggle-vertical.png" style="left: 85%;" />
-
-</div>
 {% endblock %}

@@ -1,11 +1,45 @@
-.festy-background {
-    background-color: rgba(255, 255, 255, 1);
-    overflow: hidden;
+body {
+    background: black;
+    overflow-x: hidden;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-frame {
     background: linear-gradient(135deg, rgb(99, 106, 255) 0%, rgb(228, 119, 119) 100%);
-    position: absolute;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    height: 92vh;
+    height: 100%;
+    overflow: hidden;
+    min-height: 100vh;
+    padding-bottom: 5vh;
+    /* z-index: -2; */
+}
+
+.footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 10vh;
+    background-color: #1d1b1e;
+    position: relative;
+    z-index: 2;
+}
+
+.squiggle-frame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     z-index: -1;
+
 }
 
 .nav-bar {
@@ -16,6 +50,7 @@
     position: relative;
     background-color: #1d1b1e;
     height: 8vh;
+    z-index: 5;
 }
 
 .nav-bar .festy-icon {

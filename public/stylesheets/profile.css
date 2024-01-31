@@ -1,13 +1,4 @@
-.squiggle-frame{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 92vh;
-    position: absolute;
-    top:8%;
-    overflow: hidden;
-}
+
 
 .squiggle {
     max-width: 100%;
@@ -17,5 +8,5 @@
     display: block;
     position: absolute;
     top: 0;
-    z-index: -1;
+    /* z-index: -1; */
 }

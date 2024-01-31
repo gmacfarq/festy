@@ -86,7 +86,6 @@ app.get('/logout', (req, res) => {
 
 app.get('/profile', ensureLoggedIn, async (req, res) => {
   const currUser = req.session.currUser;
-  console.log(currUser);
 
   res.render('profile.html', { user: currUser });
 });
@@ -105,7 +104,6 @@ app.get('/festivals', async (req, res) => {
 
     // Retrieve the current user from the session if needed
     const currUser = req.session.currUser;
-    console.log(festivals);
 
     // Render the 'festivals.html' template with the retrieved festival data and user data
     res.render('festivals.html', { festivals, user: currUser });
@@ -127,7 +125,6 @@ app.route('/festivals/:id')
 
       // Retrieve the current user from the session if needed
       const currUser = req.session.currUser;
-      console.log(festival);
 
       // Render the 'festival.html' template with the retrieved festival data and user data
       res.render('festival.html', { festival, user: currUser });
@@ -139,6 +136,7 @@ app.route('/festivals/:id')
   })
   .post(async (req, res) => {
     try {
+      console.log(req.body);
       const artistIds = req.body.artistIds;
       const trackCounts = req.body.trackCounts;
 

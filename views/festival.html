@@ -1,28 +1,118 @@
 {% extends 'layout.html' %}
 
+{% block head %}
+<link rel="stylesheet" href="/stylesheets/festival.css">
+{% endblock %}
+
 {% block content %}
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const festivalContainer = document.querySelector('.festival-artist-container');
+        const playlistContainer = document.querySelector('.playlist-artist-container');
+        const addAllButton = document.getElementById('add-all');
+        const removeAllButton = document.getElementById('remove-all');
+        const submitButton = document.getElementById('submit-playlist');
+
+        submitButton.addEventListener('click', function() {
+            const artistDivs = playlistContainer.querySelectorAll('.artist');
+            const artistIds = Array.from(artistDivs).map(div => div.getAttribute('artist-id'));
+            const trackCounts = artistDivs.length > 0 ? new Array(artistDivs.length).fill(1) : [];
+
+            const data = {
+                artistIds: artistIds,
+                trackCounts: trackCounts
+            };
+
+            fetch('/festivals/{{ festival.id }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // Handle success response
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // Handle errors
+            });
+        });
+
+
+        // Function to move an artist to the playlist container
+        festivalContainer.addEventListener('click', function (event) {
+            if (event.target.classList.contains('artist')) {
+                playlistContainer.appendChild(event.target);
+            }
+        });
+
+        // Function to move an artist back to the festival container
+        playlistContainer.addEventListener('click', function (event) {
+            if (event.target.classList.contains('artist')) {
+                festivalContainer.appendChild(event.target);
+            }
+        });
+
+        // Function to move all artists to the playlist container
+        addAllButton.addEventListener('click', function() {
+            const allArtists = Array.from(festivalContainer.getElementsByClassName('artist'));
+            allArtists.forEach(artist => {
+                playlistContainer.appendChild(artist);
+            });
+        });
+
+        // Function to move all artists back to the festival container
+        removeAllButton.addEventListener('click', function() {
+            const allArtists = Array.from(playlistContainer.getElementsByClassName('artist'));
+            allArtists.forEach(artist => {
+                festivalContainer.appendChild(artist);
+            });
+        });
+    });
+</script>
+
 <h1>Festival Details</h1>
 
-<div class="festival">
+<div class="header">
     <h2>{{ festival.name }}</h2>
     <p>Date: {{ festival.date }}</p>
     <!-- <p>Location: {{ festival.location }}</p> -->
 </div>
+<button id="add-all">Add All Artists</button>
+<button id="remove-all">Remove All Artists</button>
 
-<h2>Acts</h2>
-<form method="post" action="/festivals/{{ festival.id }}">
-  <ul>
-      {% for act in festival.acts %}
-      <li>
-          {{ act.artist_name }}
-          <input type="hidden" name="artistIds[]" value="{{ act.spotify_id }}">
-          <label for="trackCount{{ act.artist_id }}">Number of Tracks:</label>
-          <input type="number" name="trackCounts[]" id="trackCount{{ act.artist_id }}" min="1" value="1">
-      </li>
-      {% endfor %}
-  </ul>
-  <button type="submit">Submit</button>
-</form>
+<div class="playlist-creation-container">
+    <div class="festival">
+        <div class="festival-name-container">
+            <h2 class="border-text"> {{ festival.name }}</h2>
+        </div>
+
+        <div class="festival-artist-container">
+            {% for act in festival.acts %}
+            <div class="artist" artist-id="{{ act.spotify_id}}">
+                    {{act.artist_name}}
+            </div>
+            {% endfor %}
+            <!-- Contains divs with all artists in the festival -->
+        </div>
+    </div>
+
+    <div class="playlist">
+        <div class="playlist-name-container">
+            <h2 class="border-text">Playlist</h2>
+        </div>
+
+        <div class="playlist-artist-container">
+            <!-- Contains divs with all artists in the playlist -->
+        </div>
+    </div>
+</div>
+
+<button type="button" id="submit-playlist">Submit Playlist</button>
 
 <p><a href="/">Back to Homepage</a></p>
 {% endblock %}
