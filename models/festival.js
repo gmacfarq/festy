@@ -84,6 +84,26 @@ class Festival {
 
     return festival;
   }
+
+  /**
+   * Fetch a single festival's name by its ID.
+   * @param {number} festivalId - The ID of the festival to fetch.
+   * @returns {Promise<Object|null>} The festival name.
+   */
+  static async getFestivalName(festivalId) {
+    const query = `
+      SELECT name
+      FROM festivals
+      WHERE id = $1`;
+
+    const result = await db.query(query, [festivalId]);
+
+    if (result.rows.length === 0) {
+      throw new NotFoundError('Festival not found');
+    }
+
+    return result.rows[0];
+  }
 }
 
 module.exports = Festival;

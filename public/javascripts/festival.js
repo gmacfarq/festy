@@ -17,9 +17,12 @@ document.addEventListener('DOMContentLoaded', function () {
       return input ? parseInt(input.value, 10) : 1; // Default to 1 if input is not found
     });
 
+    const festivalName = document.getElementById('festival-name-header').innerText;
+
     const data = {
       artistIds: artistIds,
-      trackCounts: trackCounts
+      trackCounts: trackCounts,
+      festivalName: festivalName
     };
 
     fetch('/festivals/{{ festival.id }}', {

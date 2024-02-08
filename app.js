@@ -136,9 +136,12 @@ app.route('/festivals/:id')
   })
   .post(async (req, res) => {
     try {
+
+
       console.log(req.body);
       const artistIds = req.body.artistIds;
       const trackCounts = req.body.trackCounts;
+      const festivalName = req.body.festivalName;
 
       // Combine artist IDs and track counts into an array of objects
       const artistTrackData = artistIds.map((id, index) => {
@@ -164,7 +167,7 @@ app.route('/festivals/:id')
       }
 
       // Create a new playlist
-      const playlistResponse = await spotifyApi.createPlaylist('FESTY OSL 2023 test 100+ playlist', { 'description': 'My description', 'public': true });
+      const playlistResponse = await spotifyApi.createPlaylist(`${festivalName} Playlist`, { 'description': 'Made with Festy', 'public': true });
       const playlistId = playlistResponse.body.id;
 
       // Function to add tracks to playlist in batches of 100
