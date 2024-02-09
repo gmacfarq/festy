@@ -53,9 +53,12 @@ document.addEventListener('DOMContentLoaded', function () {
       let currentValue = parseInt(trackCountInput.value, 10) || 1;
 
       if (scrollEvent.deltaY > 0) { // Scrolling up
-        trackCountInput.value = Math.min(currentValue + 1, trackCountInput.max);
+        trackCountInput.value = Math.min(currentValue - 1, trackCountInput.max);
+        if(trackCountInput.value > 10){
+          trackCountInput.value = 10;
+        }
       } else { // Scrolling down
-        trackCountInput.value = Math.max(currentValue - 1, trackCountInput.min);
+        trackCountInput.value = Math.max(currentValue + 1, trackCountInput.min);
       }
     }
   }

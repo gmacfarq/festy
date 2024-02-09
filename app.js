@@ -6,6 +6,7 @@ const session = require('express-session');
 const { UnauthorizedError, NotFoundError } = require('./expressError');
 const User = require('./models/user');
 const Festival = require('./models/festival');
+const { default: axios } = require('axios');
 require('dotenv').config();
 
 const port = process.env.PORT;
@@ -105,6 +106,11 @@ app.get('/festivals', async (req, res) => {
     // Retrieve the current user from the session if needed
     const currUser = req.session.currUser;
 
+    for (festival of festivals) {
+      festival.date = festival.date.toISOString().split('T')[0];
+    }
+
+
     // Render the 'festivals.html' template with the retrieved festival data and user data
     res.render('festivals.html', { festivals, user: currUser });
   } catch (err) {
@@ -122,6 +128,9 @@ app.route('/festivals/:id')
 
       // Call the getFestivalWithActs function to retrieve the festival data
       const festival = await Festival.getFestivalWithActs(festivalId);
+
+      //format date
+      festival.date = festival.date.toISOString().split('T')[0];
 
       // Retrieve the current user from the session if needed
       const currUser = req.session.currUser;

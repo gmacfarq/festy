@@ -9,9 +9,9 @@
 
 <div class="header">
     <h2>{{ festival.name }}</h2>
-    <p>Date: {{ festival.date }}</p>
-    <!-- <p>Location: {{ festival.location }}</p> -->
-    <!-- <p>Website: {{ festival.website }}</p> -->
+    <span>Date: {{ festival.date }}</span>
+    <span>Location: {{ festival.location }}</span>
+    <a href="{{ festival.website }}"><p>Check out their website</p></a>
 </div>
 <div class = "button-container">
     <button id="add-all" class="playlist-button">Add All Artists</button>

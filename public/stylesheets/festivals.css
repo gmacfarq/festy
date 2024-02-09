@@ -2,7 +2,7 @@
     display: block;
     position: absolute;
     min-height: 100%;
-    height:100%;
+    height: 100%;
     /* z-index: -1; */
 }
 
@@ -15,7 +15,7 @@
     height: 8vh;
     margin-top: 5vh;
     margin-bottom: 5vh;
-    z-index:1;
+    z-index: 1;
 }
 
 .search-box {
@@ -83,7 +83,26 @@
     width: 100%;
     height: 60%;
     background: linear-gradient(118deg, rgba(149, 153, 255, 1) 0%, rgb(133, 100, 164) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
+.festival-information{
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    font-family: Lexend, sans-serif;
+    font-weight: 700;
+    word-wrap: break-word;
+}
+
+.festival-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    z-index: 2;
 }
 
 .make-playlist-button {

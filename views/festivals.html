@@ -4,11 +4,11 @@
 {% endblock %}
 {% block content %}
 
-  <img class="wave" src="images/wave-vertical.png" style="left: 5%;" />
-  <img class="wave" src="images/wave-vertical.png" style="left: 25%;" />
-  <img class="wave" src="images/wave-vertical.png" style="left: 45%;" />
-  <img class="wave" src="images/wave-vertical.png" style="left: 65%;" />
-  <img class="wave" src="images/wave-vertical.png" style="left: 85%;" />
+<img class="wave" src="images/wave-vertical.png" style="left: 5%;" />
+<img class="wave" src="images/wave-vertical.png" style="left: 25%;" />
+<img class="wave" src="images/wave-vertical.png" style="left: 45%;" />
+<img class="wave" src="images/wave-vertical.png" style="left: 65%;" />
+<img class="wave" src="images/wave-vertical.png" style="left: 85%;" />
 
 <div class="header">
   <h1 class="title-text">Upcoming Festivals</h1>
@@ -26,8 +26,17 @@
     </div>
 
     <div class="festival-information-container">
-      <!-- Add a bunch of information about the
-        festival and maybe a picture later -->
+      <div>
+        <p class="festival-information" >Date: {{ festival.date }}</p>
+      </div>
+      <div>
+        <p class="festival-information" >Location: {{ festival.location }}</p>
+      </div>
+      <div>
+        <a href="{{ festival.website }}">
+          <p class="festival-information" > Website</p>
+        </a>
+      </div>
     </div>
     <a href="/festivals/{{ festival.id }}">
       <div class="make-playlist-button">
