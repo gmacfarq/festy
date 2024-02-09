@@ -8,9 +8,9 @@ class Festival {
   */
   static async getByDate() {
     const query = `
-    SELECT id, name, date, location
+    SELECT id, name, date, location, image, website
     FROM festivals
-    ORDER BY date
+    ORDER BY date DESC
     LIMIT 6`;
 
     const result = await db.query(query);
@@ -61,7 +61,7 @@ class Festival {
    */
   static async getFestivalWithActs(festivalId) {
     const festivalQuery = `
-      SELECT id, name, date, location
+      SELECT id, name, date, location, image, website
       FROM festivals
       WHERE id = $1`;
 
