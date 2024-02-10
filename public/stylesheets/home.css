@@ -8,6 +8,16 @@
     object-fit: contain;
 }
 
+.wave-2 {
+    width: 110vw;
+    max-height: 110vh;
+    height: auto;
+    display: none;
+    position: absolute;
+    object-fit: contain;
+
+}
+
 .logo-container {
     position: absolute;
     top: 20%;
@@ -55,5 +65,8 @@
 
     .slogan {
         font-size: 3em;
+    }
+    .wave-2{
+        display: block;
     }
 }
