@@ -1,9 +1,59 @@
 /* Home page styles */
 .wave {
-    min-width: 110vw;
+    width: 110vw;
     max-height: 110vh;
-    width: auto;
     height: auto;
     display: block;
-    position:absolute;
+    position: absolute;
+    object-fit: contain;
+}
+
+.logo-container {
+    position: absolute;
+    top: 20%;
+    left: 65%;
+}
+
+.logo {
+    object-fit: contain;
+    width: 100%;
+}
+
+.slogan-container {
+    position: absolute;
+    top: 70%;
+    left: 10%;
+    margin: 10px;
+}
+
+.slogan {
+    font-size: 4em;
+    color: #480077;
+    font-weight: 1000;
+    font-family: "Lexend", sans-serif;
+}
+
+.slogan-playlist{
+    color: #636AFF;
+}
+
+.slogan-festival{
+    color: #E47777
+}
+
+@media screen and (max-width: 970px) {
+    .logo-container {
+        top: 10%;
+        left: 65%;
+        width: 30%;
+    }
+
+    .slogan-container{
+        top: 60%;
+        left: 5%;
+    }
+
+    .slogan {
+        font-size: 3em;
+    }
 }
