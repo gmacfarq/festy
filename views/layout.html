@@ -18,6 +18,9 @@
 		<img class="festy-icon" src="/images/festy-icon.png" />
 		<img class="menu-icon" src="/images/menu-icon.svg" />
 	</div>
+	{% if flashMessage %}
+		<div style="color: red">{{ flashMessage.message }}</div>
+	{% endif %}
 	{% if not user %}
 	<div class="dropdown">
 		<div class="tab"><a href="/festivals">Festivals</a></div>

@@ -44,8 +44,11 @@
         </div>
     </div>
 </div>
-
+{% if user %}
 <button type="button" class="playlist-button" id="submit-playlist">Submit Playlist</button>
-
+{% endif %}
+{% if not user %}
+<a href="/login"><button type="button" class="playlist-button">Log in to create a playlist</button></a>
+{% endif %}
 <p><a href="/">Back to Homepage</a></p>
 {% endblock %}
