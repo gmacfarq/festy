@@ -7,41 +7,44 @@ document.addEventListener('DOMContentLoaded', function () {
   const removeAllButton = document.getElementById('remove-all');
   const submitButton = document.getElementById('submit-playlist');
 
-  submitButton.addEventListener('click', function () {
-    const artistDivs = playlistContainer.querySelectorAll('.artist');
-    const artistIds = Array.from(artistDivs).map(div => div.getAttribute('artist-id'));
+  if(submitButton){
 
-    // Create trackCounts array based on the value of each track count input
-    const trackCounts = Array.from(artistDivs).map(div => {
-      const input = div.querySelector('.track-count');
-      return input ? parseInt(input.value, 10) : 1; // Default to 1 if input is not found
-    });
+    submitButton.addEventListener('click', function () {
+      const artistDivs = playlistContainer.querySelectorAll('.artist');
+      const artistIds = Array.from(artistDivs).map(div => div.getAttribute('artist-id'));
 
-    const festivalName = document.getElementById('festival-name-header').innerText;
-
-    const data = {
-      artistIds: artistIds,
-      trackCounts: trackCounts,
-      festivalName: festivalName
-    };
-
-    fetch('/festivals/{{ festival.id }}', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data)
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
-        // Handle success response
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        // Handle errors
+      // Create trackCounts array based on the value of each track count input
+      const trackCounts = Array.from(artistDivs).map(div => {
+        const input = div.querySelector('.track-count');
+        return input ? parseInt(input.value, 10) : 1; // Default to 1 if input is not found
       });
-  });
+
+      const festivalName = document.getElementById('festival-name-header').innerText;
+
+      const data = {
+        artistIds: artistIds,
+        trackCounts: trackCounts,
+        festivalName: festivalName
+      };
+
+      fetch('/festivals/{{ festival.id }}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Success:', data);
+          // Handle success response
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          // Handle errors
+        });
+    });
+  }
 
 
   // Function to handle scroll over artist div
