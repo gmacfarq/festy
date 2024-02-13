@@ -132,3 +132,17 @@ a {
 a:hover {
     color: #ffffff;
 }
+
+.construction-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: black;
+    z-index:2;
+    color: #E47777
+}
