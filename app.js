@@ -72,9 +72,29 @@ app.get('/login', (req, res) => {
 });
 
 app.get(authCallbackPath, async (req, res) => {
-  const { body } = await spotifyApi.authorizationCodeGrant(req.query.code);
-  spotifyApi.setAccessToken(body['access_token']);
-  spotifyApi.setRefreshToken(body['refresh_token']);
+  try{
+
+    const { body } = await spotifyApi.authorizationCodeGrant(req.query.code);
+    spotifyApi.setAccessToken(body['access_token']);
+    spotifyApi.setRefreshToken(body['refresh_token']);
+    const expires_in = body['expires_in'];
+
+    console.log(
+      `Sucessfully retreived access token. Expires in ${expires_in} s.`
+    );
+
+    setInterval(async () => {
+      const data = await spotifyApi.refreshAccessToken();
+      const access_token = data.body['access_token'];
+
+      console.log('The access token has been refreshed!');
+      console.log('access_token:', access_token);
+      spotifyApi.setAccessToken(access_token);
+    }, expires_in / 2 * 1000);
+  }
+  catch{
+    console.log('Error getting access token:', err);
+  }
 
   user = await spotifyApi.getMe();
   req.session.currUser = user.body;
