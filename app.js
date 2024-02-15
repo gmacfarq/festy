@@ -6,6 +6,7 @@ const session = require('express-session');
 const { UnauthorizedError, NotFoundError } = require('./expressError');
 const User = require('./models/user');
 const Festival = require('./models/festival');
+const Artist = require('./models/artist');
 // const { default: axios } = require('axios');
 require('dotenv').config();
 
@@ -88,7 +89,7 @@ app.get('/login', (req, res) => {
  * If an error occurs, the response should have a 500 status code and an error message.
  */
 app.get(authCallbackPath, async (req, res) => {
-  try{
+  try {
 
     const { body } = await spotifyApi.authorizationCodeGrant(req.query.code);
     spotifyApi.setAccessToken(body['access_token']);
@@ -108,7 +109,7 @@ app.get(authCallbackPath, async (req, res) => {
       spotifyApi.setAccessToken(access_token);
     }, expires_in / 2 * 1000);
   }
-  catch{
+  catch {
     console.log('Error getting access token:', err);
     res.status(500).send('Internal Server Error');
   }
@@ -228,7 +229,6 @@ app.get('/festivals/:id', async (req, res) => {
 app.post('/festivals/:id', async (req, res) => {
 
   try {
-    console.log(req.body);
     const artistIds = req.body.artistIds;
     const trackCounts = req.body.trackCounts;
     const festivalName = req.body.festivalName;
@@ -239,20 +239,43 @@ app.post('/festivals/:id', async (req, res) => {
     });
 
     // Define a function to fetch top tracks for an artist
-    const fetchTopTracks = async (artistId, count) => {
-      const topTracksResponse = await spotifyApi.getArtistTopTracks(artistId, 'US');
-      const topTracks = topTracksResponse.body.tracks.slice(0, count); // Get the first 'count' tracks
-      return topTracks.map(track => `spotify:track:${track.id}`); // Extract track IDs
+    const fetchTopTracks = async (artistSpotifyId, count) => {
+      //TODO: chack if tracks need to be updated
+      //If need to be updated then update with API call
+      //otherwise get from database
+      const topTracks = await Artist.getTracks(artistSpotifyId);
+      if (topTracks.length === 0) {
+        const topTracksResponse = await spotifyApi.getArtistTopTracks(artistSpotifyId, 'US');
+        for (let track of topTracksResponse.body.tracks) {
+          await Artist.addTrack(artistSpotifyId, track.id);
+        }
+        const topTracks = topTracksResponse.body.tracks.slice(0, count);
+        return topTracks.map(track => `spotify:track:${track.id}`);
+      }
+      for (let track of topTracks) {
+        if (Date.now() - track.date_added > 604800000) { //check if track is older than 7 days
+          await Artist.deleteTracks(artistSpotifyId);
+          const topTracksResponse = await spotifyApi.getArtistTopTracks(artistSpotifyId, 'US');
+          for (let track of topTracksResponse.body.tracks) {
+            await Artist.addTrack(artistSpotifyId, track.id);
+          }
+          const topTracks = topTracksResponse.body.tracks.slice(0, count);
+          return topTracks.map(track => `spotify:track:${track.id}`);
+        }
+      }
+      const requestedTracks = topTracks.slice(0, count); // Get the first 'count' tracks
+      console.log('requestedTracks:', requestedTracks);
+      return requestedTracks.map(track => `spotify:track:${track.track_spotify_id}`); // Extract track IDs
     };
 
     let allTrackUris = [];
 
     // Fetch tracks for each artist and accumulate their URIs
     for (let i = 0; i < artistTrackData.length; i++) {
-      const artistId = artistTrackData[i].id;
+      const artistSpotifyId = artistTrackData[i].id;
       const trackCount = artistTrackData[i].count;
 
-      const topTrackUris = await fetchTopTracks(artistId, trackCount);
+      const topTrackUris = await fetchTopTracks(artistSpotifyId, trackCount);
       allTrackUris = allTrackUris.concat(topTrackUris);
     }
 

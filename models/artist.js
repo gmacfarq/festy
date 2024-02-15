@@ -17,14 +17,14 @@ class Artist {
   /**
    * fetch an artists tracks
    */
-  static async getTracks(artistId) {
+  static async getTracks(artistSpotifyId) {
     const query = `
       SELECT id, track_spotify_id, artist_id, date_added
       FROM tracks
       WHERE artist_id = $1
-      ORDER BY date_added DESC
+      ORDER BY date_added ASC
       LIMIT 10`;
-    const result = await db.query(query, [artistId]);
+    const result = await db.query(query, [artistSpotifyId]);
     return result.rows;
   }
 
@@ -42,12 +42,12 @@ class Artist {
   /**
    * add a track for an artist
    */
-  static async addTrack(artistId, trackSpotifyId) {
+  static async addTrack(artistSpotifyId, trackSpotifyId) {
     const query = `
       INSERT INTO tracks (artist_id, track_spotify_id)
       VALUES ($1, $2)
       RETURNING id, artist_id, track_spotify_id, date_added`;
-    const result = await db.query(query, [artistId, trackSpotifyId]);
+    const result = await db.query(query, [artistSpotifyId, trackSpotifyId]);
     return result.rows[0];
   }
 
