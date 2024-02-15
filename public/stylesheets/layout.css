@@ -146,3 +146,26 @@ a:hover {
     z-index:2;
     color: #E47777
 }
+
+@keyframes fadeOut {
+    0%, 99% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}
+
+.flash-message {
+    display: flex;
+    font-family: "Lexend", sans-serif;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 10vh;
+    background-color: #1d1b1e;
+    position: relative;
+    z-index: 2;
+    animation: fadeOut 10s forwards;
+}

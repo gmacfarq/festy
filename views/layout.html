@@ -19,7 +19,11 @@
 		<img class="menu-icon" src="/images/menu-icon.svg" />
 	</div>
 	{% if flashMessage %}
-		<div style="color: red">{{ flashMessage.message }}</div>
+	<div class="flash-message" style="color: {{ flashMessage.color }}">
+		<h2>
+			{{ flashMessage.message }}
+		</h2>
+	</div>
 	{% endif %}
 	{% if not user %}
 	<div class="dropdown">
