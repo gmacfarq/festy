@@ -6,7 +6,7 @@ const session = require('express-session');
 const { UnauthorizedError, NotFoundError } = require('./expressError');
 const User = require('./models/user');
 const Festival = require('./models/festival');
-const { default: axios } = require('axios');
+// const { default: axios } = require('axios');
 require('dotenv').config();
 
 const port = process.env.PORT;
@@ -39,6 +39,9 @@ var spotifyApi = new SpotifyWebApi({
   redirectUri: 'http://localhost:' + port + authCallbackPath,
 });
 
+/**
+ *  Middleware to capture the redirect URL.
+ */
 app.use((req, res, next) => {
   // Exclude auth routes from redirect capture
   if (!req.path.startsWith('/auth')) {
@@ -49,6 +52,9 @@ app.use((req, res, next) => {
   next();
 });
 
+/**
+ * Middleware to add flash messages to the response locals.
+ */
 app.use((req, res, next) => {
   if (req.session.flashMessage) {
     res.locals.flashMessage = req.session.flashMessage;
@@ -57,6 +63,9 @@ app.use((req, res, next) => {
   next();
 });
 
+/** GET /
+ * Render the home page.
+ */
 app.get('/', async (req, res) => {
   if (spotifyApi.getAccessToken()) {
     const currUser = req.session.currUser;
@@ -67,10 +76,17 @@ app.get('/', async (req, res) => {
   }
 });
 
+/** GET /login
+ * Redirect to the Spotify login page.
+ */
 app.get('/login', (req, res) => {
   res.redirect(spotifyApi.createAuthorizeURL(scopes));
 });
 
+/** GET /auth/spotify/callback
+ * Exchange the code for an access token and redirect to the redirectURL.
+ * If an error occurs, the response should have a 500 status code and an error message.
+ */
 app.get(authCallbackPath, async (req, res) => {
   try{
 
@@ -94,6 +110,7 @@ app.get(authCallbackPath, async (req, res) => {
   }
   catch{
     console.log('Error getting access token:', err);
+    res.status(500).send('Internal Server Error');
   }
 
   user = await spotifyApi.getMe();
@@ -112,6 +129,10 @@ app.get(authCallbackPath, async (req, res) => {
 
 });
 
+/** GET /logout
+ * Log out the current user.
+ * The response should redirect to the home page.
+ */
 app.get('/logout', (req, res) => {
 
   req.session.destroy((err) => {
@@ -124,6 +145,10 @@ app.get('/logout', (req, res) => {
   });
 });
 
+/** GET /profile
+ * Retrieve the current user's profile.
+ * The response should be a JSON object with the user data.
+ */
 app.get('/profile', ensureLoggedIn, async (req, res) => {
   const currUser = req.session.currUser;
 
@@ -136,7 +161,11 @@ app.get('/playlists', ensureLoggedIn, async (req, res) => {
   res.render('playlists.html', { playlists: body.items, user: currUser });
 });
 
-
+/** GET /festivals
+ * Retrieve all festivals.
+ * The response should be a JSON object with the festival data.
+ * If an error occurs, the response should have a 500 status code and an error message.
+ */
 app.get('/festivals', async (req, res) => {
   try {
 
@@ -157,6 +186,12 @@ app.get('/festivals', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+/** GET /festivals/:id
+ * Retrieve the festival with the given ID.
+ * The response should be a JSON object with the festival data.
+ * If an error occurs, the response should have a 500 status code and an error message.
+ */
 
 app.get('/festivals/:id', async (req, res) => {
   try {
@@ -180,6 +215,16 @@ app.get('/festivals/:id', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+/**  POST /festivals/:id
+* Create a new playlist for the festival with the given ID.
+* The request body should contain a festivla name, an array of artist IDs and an array of track counts.
+*
+* The playlist should be created and the tracks added to it.
+* The response should be a JSON object with a message and the playlist ID.
+* If an error occurs, the response should have a 500 status code and an error message.
+*/
+
 app.post('/festivals/:id', async (req, res) => {
 
   try {
