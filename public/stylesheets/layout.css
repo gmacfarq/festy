@@ -167,5 +167,5 @@ a:hover {
     background-color: #1d1b1e;
     position: relative;
     z-index: 2;
-    animation: fadeOut 10s forwards;
+    animation: fadeOut 5s forwards;
 }
