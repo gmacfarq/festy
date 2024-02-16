@@ -13,12 +13,18 @@ document.addEventListener('DOMContentLoaded', function () {
       const artistDivs = playlistContainer.querySelectorAll('.artist');
       const artistIds = Array.from(artistDivs).map(div => div.getAttribute('artist-id'));
 
+      if (artistIds.length === 0) {
+        alert('You must add at least one artist to the playlist');
+        return;
+      }
       // Create trackCounts array based on the value of each track count input
       const trackCounts = Array.from(artistDivs).map(div => {
         const input = div.querySelector('.track-count');
         return input ? parseInt(input.value, 10) : 1; // Default to 1 if input is not found
       });
 
+      document.getElementById("generating-loader").style.display = 'flex';
+      document.getElementById("submit-playlist").style.display = 'none';
       const festivalName = document.getElementById('festival-name-header').innerText;
 
       const data = {
@@ -26,6 +32,8 @@ document.addEventListener('DOMContentLoaded', function () {
         trackCounts: trackCounts,
         festivalName: festivalName
       };
+
+
 
       fetch('/festivals/{{ festival.id }}', {
         method: 'POST',
@@ -38,9 +46,11 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
           console.log('Success:', data);
           // Handle success response
+          document.getElementById("generating-loader").innerHTML = "Success!";
         })
         .catch((error) => {
           console.error('Error:', error);
+          document.getElementById("generating-loader").innerHTML = "Error :(";
           // Handle errors
         });
     });
