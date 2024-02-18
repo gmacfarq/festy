@@ -74,10 +74,13 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   // Function to add a track count input to an artist div
   function addTrackCountInput(artistDiv) {
+    const multipleTrackCountInput = document.getElementById('track-count-multiple').value;
+
     const trackCountInput = document.createElement('input');
     trackCountInput.type = 'number';
     trackCountInput.className = 'track-count';
-    trackCountInput.value = '1';
+    trackCountInput.value = multipleTrackCountInput === 'random' ?
+        Math.floor(Math.random() * 10) + 1 : multipleTrackCountInput;
     trackCountInput.min = '1';
     trackCountInput.max = '10';
 

@@ -66,6 +66,9 @@
     .slogan {
         font-size: 3em;
     }
+}
+
+@media screen and (max-width: 600px) {
     .wave-2{
         display: block;
     }

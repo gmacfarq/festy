@@ -145,6 +145,40 @@
     word-wrap: break-word;
 }
 
+.track-count-select{
+    width: auto;
+    /* Adjust as needed */
+    height: auto;
+    /* Adjust as needed */
+    background: linear-gradient(208deg, rgba(228.46, 118.57, 118.57) 0%, rgb(133, 100, 164) 100%);
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    font-family: Lexend, sans-serif;
+    outline: none;
+    padding: 5px 10px;
+}
+
+#track-count-multiple{
+    width: auto;
+    /* Adjust as needed */
+    height: auto;
+    /* Adjust as needed */
+    background: linear-gradient(208deg, rgba(228.46, 118.57, 118.57) 0%, rgb(133, 100, 164) 100%);
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    font-family: Lexend, sans-serif;
+    outline: none;
+    padding: 4px 4px;
+}
+
+#track-count-multiple option{
+    background-color:rgb(133, 100, 164);
+    color: white;
+    font-family: Lexend, sans-serif;
+}
+
 /* Button */
 .playlist-button {
     background: linear-gradient(118deg, rgba(149, 153, 255, 1) 0%, rgb(133, 100, 164) 100%);
