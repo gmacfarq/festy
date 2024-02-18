@@ -7,6 +7,7 @@ const { UnauthorizedError, NotFoundError } = require('./expressError');
 const User = require('./models/user');
 const Festival = require('./models/festival');
 const Artist = require('./models/artist');
+const { shuffleArray } = require('./helpers/playlist');
 // const { default: axios } = require('axios');
 require('dotenv').config();
 
@@ -249,7 +250,8 @@ app.post('/festivals/:id', async (req, res) => {
         for (let track of topTracksResponse.body.tracks) {
           await Artist.addTrack(artistSpotifyId, track.id);
         }
-        const topTracks = topTracksResponse.body.tracks.slice(0, count);
+        let topTracks = shuffleArray(topTracksResponse.body.tracks);
+        topTracks = topTracks.slice(0, count);
         return topTracks.map(track => `spotify:track:${track.id}`);
       }
       for (let track of topTracks) {
@@ -259,11 +261,15 @@ app.post('/festivals/:id', async (req, res) => {
           for (let track of topTracksResponse.body.tracks) {
             await Artist.addTrack(artistSpotifyId, track.id);
           }
-          const topTracks = topTracksResponse.body.tracks.slice(0, count);
+          let topTracks = shuffleArray(topTracksResponse.body.tracks);
+          topTracks = topTracks.slice(0, count);
           return topTracks.map(track => `spotify:track:${track.id}`);
         }
       }
-      const requestedTracks = topTracks.slice(0, count); // Get the first 'count' tracks
+      console.log('topTracks:', topTracks);
+      let requestedTracks = shuffleArray(topTracks)
+      console.log('requestedTracks:', requestedTracks);
+      requestedTracks = requestedTracks.slice(0, count); // Get the first 'count' tracks
       console.log('requestedTracks:', requestedTracks);
       return requestedTracks.map(track => `spotify:track:${track.track_spotify_id}`); // Extract track IDs
     };
