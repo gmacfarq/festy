@@ -4,7 +4,7 @@
 
 const { Client } = require("pg");
 require('dotenv').config();
-const f2 = reuire('fs');
+const f2 = require('fs');
 
 const sslConfig = {
   rejectUnauthorized: true, // This should be true to verify the server's certificate against the CA
