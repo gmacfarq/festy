@@ -13,7 +13,7 @@ const PORT = +process.env.PORT || 3000;
 function getDatabaseUri() {
   return (process.env.NODE_ENV === "test")
       ? process.env.DATABASE_URL_TEST
-      : process.env.PGHOST || "postgres:///festy";
+      : process.env.DATABASE_URL || "postgres:///festy";
 }
 
 console.log("Festy Config:".green);

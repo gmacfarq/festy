@@ -33,7 +33,7 @@ app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitializ
 var spotifyApi = new SpotifyWebApi({
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
-  redirectUri: 'localhost:' + port + authCallbackPath,
+  redirectUri: 'http://localhost:' + port + authCallbackPath,
 });
 
 /**
