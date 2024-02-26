@@ -12,15 +12,11 @@ const { shuffleArray } = require('./helpers/playlist');
 require('dotenv').config();
 
 const port = process.env.PORT;
+const ec2Url = 'http://ec2-54-183-183-107.us-west-1.compute.amazonaws.com';
 const authCallbackPath = '/auth/spotify/callback';
 
 const scopes = [
-  'playlist-read-collaborative',
   'playlist-modify-public',
-  'playlist-read-private',
-  'playlist-modify-private',
-  'user-follow-read',
-  'user-follow-modify'
 ],
   showDialog = true,
   responseType = 'token';
@@ -38,7 +34,7 @@ app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitializ
 var spotifyApi = new SpotifyWebApi({
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
-  redirectUri: 'http://ec2-54-183-183-107.us-west-1.compute.amazonaws.com:' + port + authCallbackPath,
+  redirectUri: ec2Url + ':' + port + authCallbackPath,
 });
 
 /**
@@ -97,9 +93,6 @@ app.get(authCallbackPath, async (req, res) => {
     spotifyApi.setRefreshToken(body['refresh_token']);
     const expires_in = body['expires_in'];
 
-    console.log(
-      `Sucessfully retreived access token. Expires in ${expires_in} s.`
-    );
 
     setInterval(async () => {
       const data = await spotifyApi.refreshAccessToken();
@@ -266,11 +259,8 @@ app.post('/festivals/:id', async (req, res) => {
           return topTracks.map(track => `spotify:track:${track.id}`);
         }
       }
-      console.log('topTracks:', topTracks);
       let requestedTracks = shuffleArray(topTracks)
-      console.log('requestedTracks:', requestedTracks);
       requestedTracks = requestedTracks.slice(0, count); // Get the first 'count' tracks
-      console.log('requestedTracks:', requestedTracks);
       return requestedTracks.map(track => `spotify:track:${track.track_spotify_id}`); // Extract track IDs
     };
 
