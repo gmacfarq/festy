@@ -12,7 +12,6 @@ const { shuffleArray } = require('./helpers/playlist');
 require('dotenv').config();
 
 const port = process.env.PORT;
-const ec2Url = 'http://ec2-54-183-183-107.us-west-1.compute.amazonaws.com';
 const authCallbackPath = '/auth/spotify/callback';
 
 const scopes = [
@@ -34,7 +33,7 @@ app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitializ
 var spotifyApi = new SpotifyWebApi({
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
-  redirectUri: ec2Url + ':' + port + authCallbackPath,
+  redirectUri: 'localhost:' + port + authCallbackPath,
 });
 
 /**
