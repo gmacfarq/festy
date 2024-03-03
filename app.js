@@ -99,7 +99,6 @@ app.get(authCallbackPath, async (req, res) => {
       const access_token = data.body['access_token'];
 
       console.log('The access token has been refreshed!');
-      console.log('access_token:', access_token);
       spotifyApi.setAccessToken(access_token);
     }, expires_in / 2 * 1000);
   }
