@@ -102,7 +102,7 @@ app.get(authCallbackPath, async (req, res) => {
       spotifyApi.setAccessToken(access_token);
     }, expires_in / 2 * 1000);
   }
-  catch {
+  catch (err){
     console.log('Error getting access token:', err);
     res.status(500).send('Internal Server Error');
   }
