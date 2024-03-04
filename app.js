@@ -298,7 +298,7 @@ app.post('/festivals/:user', async (req, res) => {
     // Add tracks to the playlist in batches
     await addTracksInBatches(allTrackUris, playlistId);
     const userDBId = await User.getUserId(user.id);
-    await User.addPlaylist(userDBId.id, playlistId, festivalName);
+    await User.addPlaylist(userDBId.id, playlistId, `${festivalName} Playlist`);
     res.json({ message: 'Playlist created and tracks added!', playlistId: playlistId });
 
   } catch (err) {
