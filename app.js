@@ -173,6 +173,7 @@ app.get('/playlists', ensureLoggedIn, async (req, res) => {
       await User.deletePlaylist(playlist.id);
       playlists.splice(playlists.indexOf(playlist), 1);
       continue;
+    }
   }
 
   res.render('playlists.html', { playlists: playlists, user: currUser });
