@@ -166,13 +166,16 @@ app.get('/playlists', ensureLoggedIn, async (req, res) => {
   const playlists = await User.getPlaylists(currUser.dbid);
   for (let playlist of playlists) {
     playlist.url = `https://open.spotify.com/playlist/${playlist.playlist_spotify_id}`;
-    try{
-      await spotifyApi.getPlaylist(playlist.playlist_spotify_id);
-    }
-    catch{
-      await User.deletePlaylist(playlist.id);
-      playlists.splice(playlists.indexOf(playlist), 1);
-      continue;
+    if (playlist.created_at < Date.now() - 86400000) {
+      try {
+        await spotifyApi.getPlaylist(playlist.playlist_spotify_id);
+        User.updatePlaylistCreatedAt(playlist.id, Date.now());
+      }
+      catch {
+        await User.deletePlaylist(playlist.id);
+        playlists.splice(playlists.indexOf(playlist), 1);
+        continue;
+      }
     }
   }
 

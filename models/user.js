@@ -71,6 +71,18 @@ class User {
     );
     return result.rows[0];
   }
+
+  static async updatePlaylistCreatedAt(playlistId, createdAt) {
+    // Update the created_at field for a playlist
+    const result = await db.query(
+      `UPDATE playlists
+      SET created_at = $2
+      WHERE id = $1
+      RETURNING id`,
+      [playlistId, createdAt]
+    );
+    return result.rows[0];
+  }
 }
 
 module.exports = User;
