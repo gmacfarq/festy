@@ -111,13 +111,18 @@ app.get(authCallbackPath, async (req, res) => {
     const user = await spotifyApi.getMe();
     req.session.currUser = user.body;
 
+    let userDBId = "";
     const spotifyUserId = user.body.id;
     const userExists = await User.checkUserExists(spotifyUserId);
+    console.log("user dtata", userExists)
 
     if (!userExists) {
       const displayName = user.body.display_name;
-      await User.createUser(spotifyUserId, displayName);
+      const createUser = await User.createUser(spotifyUserId, displayName);
+      console.log("create user data", createUser)
     }
+
+    req.session.currUser
 
     const redirectUrl = req.session.redirectTo || '/';
     res.redirect(redirectUrl);
@@ -229,7 +234,6 @@ app.post('/festivals/:user', async (req, res) => {
 
   try {
     const spotifyApi = initializeSpotifyApi(req.session);
-    console.log(req.session)
 
     const artistIds = req.body.artistIds;
     const trackCounts = req.body.trackCounts;

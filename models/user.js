@@ -11,7 +11,7 @@ class User {
   static async checkUserExists(spotifyUserId) {
     // Check if the user exists in the database
     const result = await db.query(
-      `SELECT spotify_user_id
+      `SELECT spotify_user_id, id
       FROM users
       WHERE spotify_user_id = $1`,
       [spotifyUserId]
@@ -24,7 +24,7 @@ class User {
     const result = await db.query(
       `INSERT INTO users (spotify_user_id, username)
       VALUES ($1, $2)
-      RETURNING spotify_user_id, username`,
+      RETURNING id, spotify_user_id, username`,
       [spotifyUserId, displayName]
     );
   }
