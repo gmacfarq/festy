@@ -229,6 +229,7 @@ app.post('/festivals/:user', async (req, res) => {
 
   try {
     const spotifyApi = initializeSpotifyApi(req.session);
+    console.log(req.session)
 
     const artistIds = req.body.artistIds;
     const trackCounts = req.body.trackCounts;
@@ -296,7 +297,7 @@ app.post('/festivals/:user', async (req, res) => {
 
     // Add tracks to the playlist in batches
     await addTracksInBatches(allTrackUris, playlistId);
-
+    User.addPlaylist(req.params.user, playlistId, festivalName);
     res.json({ message: 'Playlist created and tracks added!', playlistId: playlistId });
 
   } catch (err) {

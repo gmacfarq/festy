@@ -28,6 +28,28 @@ class User {
       [spotifyUserId, displayName]
     );
   }
+
+  static async getPlaylists(userId) {
+    // Get all playlists for a user
+    const result = await db.query(
+      `SELECT id, spotify_playlist_id, name
+      FROM playlists
+      WHERE user_id = $1`,
+      [userId]
+    );
+    return result.rows;
+  }
+
+  static async addPlaylist(userId, spotifyPlaylistId, name) {
+    // Add a playlist to the database
+    const result = await db.query(
+      `INSERT INTO playlists (user_id, spotify_playlist_id, name)
+      VALUES ($1, $2, $3)
+      RETURNING id, spotify_playlist_id, name`,
+      [userId, spotifyPlaylistId, name]
+    );
+    return result.rows[0];
+  }
 }
 
 module.exports = User;
