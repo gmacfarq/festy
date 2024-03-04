@@ -159,6 +159,7 @@ app.get('/profile', ensureLoggedIn, async (req, res) => {
 
 app.get('/playlists', ensureLoggedIn, async (req, res) => {
   const spotifyApi = req.session.spotifyApi;
+  console.log(spotifyApi)
   const { body } = await spotifyApi.getUserPlaylists();
   const currUser = req.session.currUser;
   res.render('playlists.html', { playlists: body.items, user: currUser });
