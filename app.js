@@ -156,10 +156,11 @@ app.get('/profile', ensureLoggedIn, async (req, res) => {
 });
 
 app.get('/playlists', ensureLoggedIn, async (req, res) => {
-  const spotifyApi = initializeSpotifyApi(req.session);
-  const { body } = await User.getPlaylists();
   const currUser = req.session.currUser;
-  res.render('playlists.html', { playlists: body.items, user: currUser });
+  const spotifyApi = initializeSpotifyApi(req.session);
+  const { playlists } = await User.getPlaylists(currUser.dbid);
+  console.log(playlists);
+  res.render('playlists.html', { playlists: playlists, user: currUser });
 });
 
 /** GET /festivals
