@@ -222,7 +222,7 @@ app.get('/festivals/:id', async (req, res) => {
 * If an error occurs, the response should have a 500 status code and an error message.
 */
 
-app.post('/festivals/:id', async (req, res) => {
+app.post('/festivals/:user', async (req, res) => {
 
   try {
     const artistIds = req.body.artistIds;
