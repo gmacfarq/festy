@@ -13,4 +13,19 @@
 <div class="construction-container">
     <h1 class="construction-text">Under Construction</h1>
 </div>
+
+<div class="playlist-container">
+    {% if playlists|length == 0 %}
+    <h1>No Playlists Found</h1>
+    {% endif %}
+
+    {% for playlist in playlists %}
+    <div class="playlist">
+        <h2>{{ playlist.name }}</h2>
+        <a href="{{ playlist.url }}">
+            <p>Open in Spotify</p>
+        </a>
+    {% endfor %}
+    </div>
+</div>
 {% endblock %}

@@ -157,10 +157,13 @@ app.get('/profile', ensureLoggedIn, async (req, res) => {
 
 app.get('/playlists', ensureLoggedIn, async (req, res) => {
   const currUser = req.session.currUser;
-  console.log("dbid", currUser.dbid)
+
   const spotifyApi = initializeSpotifyApi(req.session);
   const playlists = await User.getPlaylists(currUser.dbid);
-  console.log(playlists);
+  for (playlist of playlists) {
+    playlist.url = `https://open.spotify.com/playlist/${playlist.playlist_spotify_id}`;
+  }
+
   res.render('playlists.html', { playlists: playlists, user: currUser });
 });
 
