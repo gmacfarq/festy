@@ -159,7 +159,7 @@ app.get('/playlists', ensureLoggedIn, async (req, res) => {
   const currUser = req.session.currUser;
   console.log("dbid", currUser.dbid)
   const spotifyApi = initializeSpotifyApi(req.session);
-  const { playlists } = await User.getPlaylists(currUser.dbid);
+  const playlists = await User.getPlaylists(currUser.dbid);
   console.log(playlists);
   res.render('playlists.html', { playlists: playlists, user: currUser });
 });
