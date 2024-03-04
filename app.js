@@ -59,6 +59,7 @@ app.use((req, res, next) => {
  * Render the home page.
  */
 app.get('/', async (req, res) => {
+  const spotifyApi = req.session.spotfyApi;
   if (spotifyApi.getAccessToken()) {
     const currUser = req.session.currUser;
     res.render('index.html', { user: currUser });
