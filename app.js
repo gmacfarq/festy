@@ -165,6 +165,7 @@ app.get('/playlists', ensureLoggedIn, async (req, res) => {
   const spotifyApi = initializeSpotifyApi(req.session);
   const playlists = await User.getPlaylists(currUser.dbid);
   for (let playlist of playlists) {
+    playlist.url = `https://open.spotify.com/playlist/${playlist.playlist_spotify_id}`;
     try{
       await spotifyApi.getPlaylist(playlist.playlist_spotify_id);
     }
@@ -172,8 +173,6 @@ app.get('/playlists', ensureLoggedIn, async (req, res) => {
       await User.deletePlaylist(playlist.id);
       playlists.splice(playlists.indexOf(playlist), 1);
       continue;
-    }
-    playlist.url = `https://open.spotify.com/playlist/${playlist.playlist_spotify_id}`;
   }
 
   res.render('playlists.html', { playlists: playlists, user: currUser });
