@@ -11,7 +11,6 @@ const { shuffleArray } = require('./helpers/playlist');
 // const { default: axios } = require('axios');
 require('dotenv').config();
 
-const port = process.env.PORT;
 const ec2Url = 'https://festy.live';
 const authCallbackPath = '/auth/spotify/callback';
 
@@ -34,7 +33,7 @@ app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitializ
 var masterSpotifyApi = new SpotifyWebApi({
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
-  redirectUri: ec2Url + ':' + port + authCallbackPath,
+  redirectUri: ec2Url + authCallbackPath,
 });
 
 /**
