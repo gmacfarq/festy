@@ -109,7 +109,6 @@ app.get(authCallbackPath, async (req, res) => {
 
 
     const user = await spotifyApi.getMe();
-    console.log('User:', user.body);
     req.session.currUser = user.body;
 
     const spotifyUserId = user.body.id;
@@ -157,7 +156,6 @@ app.get('/profile', ensureLoggedIn, async (req, res) => {
 
 app.get('/playlists', ensureLoggedIn, async (req, res) => {
   const spotifyApi = initializeSpotifyApi(req.session);
-  console.log(spotifyApi);
   const { body } = await spotifyApi.getUserPlaylists();
   const currUser = req.session.currUser;
   res.render('playlists.html', { playlists: body.items, user: currUser });
