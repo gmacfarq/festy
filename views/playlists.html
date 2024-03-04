@@ -22,7 +22,7 @@
     {% for playlist in playlists %}
     <div class="playlist">
         <h2>{{ playlist.name }}</h2>
-        <a href="{{ playlist.url }}">
+        <a href="{{ playlist.url }}" target="blank">
             <p>Open in Spotify</p>
         </a>
     {% endfor %}
