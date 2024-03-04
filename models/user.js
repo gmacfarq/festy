@@ -60,6 +60,17 @@ class User {
     );
     return result.rows[0];
   }
+
+  static async deletePlaylist(playlistId) {
+    // Delete a playlist from the database
+    const result = await db.query(
+      `DELETE FROM playlists
+      WHERE id = $1
+      RETURNING id`,
+      [playlistId]
+    );
+    return result.rows[0];
+  }
 }
 
 module.exports = User;

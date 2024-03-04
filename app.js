@@ -155,12 +155,24 @@ app.get('/profile', ensureLoggedIn, async (req, res) => {
   res.render('profile.html', { user: currUser });
 });
 
+/* GET /playlists
+* Retrieve all playlists for the current user.
+* The response should be a JSON object with the playlist data.
+*/
 app.get('/playlists', ensureLoggedIn, async (req, res) => {
   const currUser = req.session.currUser;
 
   const spotifyApi = initializeSpotifyApi(req.session);
   const playlists = await User.getPlaylists(currUser.dbid);
-  for (playlist of playlists) {
+  for (let playlist of playlists) {
+    try{
+      await spotifyApi.getPlaylist(playlist.playlist_spotify_id);
+    }
+    catch{
+      await User.deletePlaylist(playlist.id);
+      playlists.splice(playlists.indexOf(playlist), 1);
+      continue;
+    }
     playlist.url = `https://open.spotify.com/playlist/${playlist.playlist_spotify_id}`;
   }
 
