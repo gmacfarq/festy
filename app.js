@@ -101,25 +101,27 @@ app.get(authCallbackPath, async (req, res) => {
       console.log('The access token has been refreshed!');
       spotifyApi.setAccessToken(access_token);
     }, expires_in / 2 * 1000);
+
+    const user = await spotifyApi.getMe();
+    req.session.currUser = user.body;
+
+    const spotifyUserId = user.body.id;
+    const userExists = await User.checkUserExists(spotifyUserId);
+
+    if (!userExists) {
+      const displayName = user.body.display_name;
+      await User.createUser(spotifyUserId, displayName);
+    }
+
+    const redirectUrl = req.session.redirectTo || '/';
+    res.redirect(redirectUrl);
   }
   catch (err){
     console.log('Error getting access token:', err);
     res.status(500).send('Internal Server Error');
   }
 
-  user = await spotifyApi.getMe();
-  req.session.currUser = user.body;
 
-  const spotifyUserId = user.body.id;
-  const userExists = await User.checkUserExists(spotifyUserId);
-
-  if (!userExists) {
-    const displayName = user.body.display_name;
-    await User.createUser(spotifyUserId, displayName);
-  }
-
-  const redirectUrl = req.session.redirectTo || '/';
-  res.redirect(redirectUrl);
 
 });
 
