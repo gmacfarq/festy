@@ -95,6 +95,8 @@ app.get(authCallbackPath, async (req, res) => {
       expiresIn: body['expires_in']
     };
 
+    const expires_in = body['expires_in'];
+
     const spotifyApi = initializeSpotifyApi(req.session);
 
     setInterval(async () => {
