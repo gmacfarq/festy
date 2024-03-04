@@ -103,6 +103,7 @@ app.get(authCallbackPath, async (req, res) => {
     }, expires_in / 2 * 1000);
 
     const user = await spotifyApi.getMe();
+    console.log('User:', user.body);
     req.session.currUser = user.body;
 
     const spotifyUserId = user.body.id;
