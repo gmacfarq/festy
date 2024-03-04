@@ -108,7 +108,7 @@ app.get(authCallbackPath, async (req, res) => {
       spotifyApi.setAccessToken(access_token);
     }, expires_in / 2 * 1000);
 
-    req.session.spotfyApi = spotifyApi;
+    req.session.spotifyApi = spotifyApi;
 
     const user = await spotifyApi.getMe();
     console.log('User:', user.body);
@@ -158,7 +158,7 @@ app.get('/profile', ensureLoggedIn, async (req, res) => {
 });
 
 app.get('/playlists', ensureLoggedIn, async (req, res) => {
-  const spotifyApi = req.session.spotfyApi;
+  const spotifyApi = req.session.spotifyApi;
   const { body } = await spotifyApi.getUserPlaylists();
   const currUser = req.session.currUser;
   res.render('playlists.html', { playlists: body.items, user: currUser });
@@ -231,7 +231,7 @@ app.get('/festivals/:id', async (req, res) => {
 app.post('/festivals/:user', async (req, res) => {
 
   try {
-    const spotifyApi = req.session.spotfyApi;
+    const spotifyApi = req.session.spotifyApi;
 
     const artistIds = req.body.artistIds;
     const trackCounts = req.body.trackCounts;
