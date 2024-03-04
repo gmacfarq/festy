@@ -31,6 +31,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitialized: true, cookie: { secure: false } }));
 
+var masterSpotifyApi = new SpotifyWebApi({
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
+  redirectUri: ec2Url + ':' + port + authCallbackPath,
+});
+
 /**
  *  Middleware to capture the redirect URL.
  */
@@ -72,7 +78,7 @@ app.get('/', async (req, res) => {
  * Redirect to the Spotify login page.
  */
 app.get('/login', (req, res) => {
-  res.redirect(spotifyApi.createAuthorizeURL(scopes));
+  res.redirect(masterSpotifyApi.createAuthorizeURL(scopes));
 });
 
 /** GET /auth/spotify/callback
