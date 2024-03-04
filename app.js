@@ -31,12 +31,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitialized: true, cookie: { secure: false } }));
 
-var spotifyApi = new SpotifyWebApi({
-  clientId: process.env.CLIENT_ID,
-  clientSecret: process.env.CLIENT_SECRET,
-  redirectUri: ec2Url + ':' + port + authCallbackPath,
-});
-
 /**
  *  Middleware to capture the redirect URL.
  */
@@ -88,6 +82,12 @@ app.get('/login', (req, res) => {
 app.get(authCallbackPath, async (req, res) => {
   try {
 
+    var spotifyApi = new SpotifyWebApi({
+      clientId: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      redirectUri: ec2Url + ':' + port + authCallbackPath,
+    });
+
     const { body } = await spotifyApi.authorizationCodeGrant(req.query.code);
     spotifyApi.setAccessToken(body['access_token']);
     spotifyApi.setRefreshToken(body['refresh_token']);
@@ -101,6 +101,8 @@ app.get(authCallbackPath, async (req, res) => {
       console.log('The access token has been refreshed!');
       spotifyApi.setAccessToken(access_token);
     }, expires_in / 2 * 1000);
+
+    req.session.spotfyApi = spotifyApi;
 
     const user = await spotifyApi.getMe();
     console.log('User:', user.body);
@@ -118,11 +120,9 @@ app.get(authCallbackPath, async (req, res) => {
     res.redirect(redirectUrl);
   }
   catch (err){
-    console.log('Error getting access token:', err);
+    console.log('Error logging in:', err);
     res.status(500).send('Internal Server Error');
   }
-
-
 
 });
 
@@ -136,8 +136,6 @@ app.get('/logout', (req, res) => {
     if (err) {
       console.error('Error destroying session:', err);
     }
-    spotifyApi.resetAccessToken();
-    spotifyApi.resetRefreshToken();
     res.redirect('/');
   });
 });
@@ -149,10 +147,12 @@ app.get('/logout', (req, res) => {
 app.get('/profile', ensureLoggedIn, async (req, res) => {
   const currUser = req.session.currUser;
 
+
   res.render('profile.html', { user: currUser });
 });
 
 app.get('/playlists', ensureLoggedIn, async (req, res) => {
+  const spotifyApi = req.session.spotfyApi;
   const { body } = await spotifyApi.getUserPlaylists();
   const currUser = req.session.currUser;
   res.render('playlists.html', { playlists: body.items, user: currUser });
@@ -225,6 +225,8 @@ app.get('/festivals/:id', async (req, res) => {
 app.post('/festivals/:user', async (req, res) => {
 
   try {
+    const spotifyApi = req.session.spotfyApi;
+
     const artistIds = req.body.artistIds;
     const trackCounts = req.body.trackCounts;
     const festivalName = req.body.festivalName;
