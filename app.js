@@ -12,7 +12,7 @@ const { shuffleArray } = require('./helpers/playlist');
 require('dotenv').config();
 
 const port = process.env.PORT;
-const ec2Url = 'http://ec2-54-183-183-107.us-west-1.compute.amazonaws.com';
+const ec2Url = 'https://festy.live';
 const authCallbackPath = '/auth/spotify/callback';
 
 const scopes = [
