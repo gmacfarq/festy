@@ -118,7 +118,8 @@ app.get(authCallbackPath, async (req, res) => {
       const displayName = user.body.display_name;
       await User.createUser(spotifyUserId, displayName);
     }
-
+    userDBId = await User.getUserId(spotifyUserId);
+    req.session.currUser.dbid = userDBId.id;
     const redirectUrl = req.session.redirectTo || '/';
     res.redirect(redirectUrl);
   }
@@ -156,7 +157,7 @@ app.get('/profile', ensureLoggedIn, async (req, res) => {
 
 app.get('/playlists', ensureLoggedIn, async (req, res) => {
   const spotifyApi = initializeSpotifyApi(req.session);
-  const { body } = await spotifyApi.getUserPlaylists();
+  const { body } = await User.getPlaylists();
   const currUser = req.session.currUser;
   res.render('playlists.html', { playlists: body.items, user: currUser });
 });
@@ -229,7 +230,7 @@ app.post('/festivals/:user', async (req, res) => {
 
   try {
     const spotifyApi = initializeSpotifyApi(req.session);
-    const user = req.session.currUser;
+    const currUser = req.session.currUser;
 
     const artistIds = req.body.artistIds;
     const trackCounts = req.body.trackCounts;
@@ -297,8 +298,7 @@ app.post('/festivals/:user', async (req, res) => {
 
     // Add tracks to the playlist in batches
     await addTracksInBatches(allTrackUris, playlistId);
-    const userDBId = await User.getUserId(user.id);
-    await User.addPlaylist(userDBId.id, playlistId, `${festivalName} Playlist`);
+    await User.addPlaylist(currUser.dbid, playlistId, `${festivalName} Playlist`);
     res.json({ message: 'Playlist created and tracks added!', playlistId: playlistId });
 
   } catch (err) {
