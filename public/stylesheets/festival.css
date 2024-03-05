@@ -289,6 +289,6 @@
     align-items: center;
 }
 
-.external-link{
-    fill:white;
+.external-website p{
+    margin: 0 !important;
 }
