@@ -140,4 +140,9 @@
 
 .external-website{
     display:flex;
+    align-items: center;
+}
+
+.external-link{
+    color: white;
 }
