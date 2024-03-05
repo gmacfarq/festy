@@ -137,3 +137,7 @@
     font-weight: 700;
     word-wrap: break-word;
 }
+
+.external-website{
+    display:flex;
+}
