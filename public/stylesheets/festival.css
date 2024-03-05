@@ -284,11 +284,4 @@
     }
 }
 
-.external-website{
-    display:flex;
-    align-items: center;
-}
 
-.external-website p{
-    margin: 0 !important;
-}

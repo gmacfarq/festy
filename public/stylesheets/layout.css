@@ -210,3 +210,12 @@ a:hover {
     z-index: 2;
     animation: fadeOut 5s forwards;
 }
+
+.external-website{
+    display:flex;
+    align-items: center;
+}
+
+.external-website p{
+    margin: 0 !important;
+}

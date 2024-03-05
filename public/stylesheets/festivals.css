@@ -138,11 +138,4 @@
     word-wrap: break-word;
 }
 
-.external-website{
-    display:flex;
-    align-items: center;
-}
 
-p{
-    margin: 0 !important;
-}
