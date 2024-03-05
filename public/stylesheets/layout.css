@@ -135,6 +135,9 @@ body {
     .nav-bar-mobile {
         display: flex;
     }
+    .built-by img{
+        display:none;
+    }
 }
 
 .festy-icon {
