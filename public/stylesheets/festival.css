@@ -283,3 +283,12 @@
         opacity: 0;
     }
 }
+
+.external-website{
+    display:flex;
+    align-items: center;
+}
+
+.external-link{
+    fill:white;
+}
