@@ -61,13 +61,13 @@ class User {
     return result.rows[0];
   }
 
-  static async deletePlaylist(playlistId) {
+  static async deletePlaylist(playlistId, userId) {
     // Delete a playlist from the database
     const result = await db.query(
       `DELETE FROM playlists
-      WHERE id = $1
+      WHERE id = $1 AND user_id = $2
       RETURNING id`,
-      [playlistId]
+      [playlistId, userId]
     );
     return result.rows[0];
   }

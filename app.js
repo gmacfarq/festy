@@ -16,7 +16,6 @@ const authCallbackPath = '/auth/spotify/callback';
 
 const scopes = [
   'playlist-modify-public',
-  'playlist-modify-private',
 ],
   showDialog = true,
   responseType = 'token';
@@ -187,17 +186,18 @@ app.get('/playlists', ensureLoggedIn, async (req, res) => {
  * The response should be a JSON object with a message.
 */
 app.post('/playlists', async (req, res) => {
-  
+  currUser = req.session.currUser;
+
   const spotifyApi = initializeSpotifyApi(req.session);
   const playlistId = req.body.playlistId;
   const spotifyId = req.body.spotifyId;
-  await User.deletePlaylist(playlistId);
+  await User.deletePlaylist(playlistId, currUser.dbid);
   try {
     await spotifyApi.unfollowPlaylist(spotifyId);
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Spotify WebAPI Error');
+    console.error('Error unfollowing playlist:', error);
   }
+  res.json({ message: 'Playlist deleted' });
 });
 
 /** GET /festivals
