@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
           spotifyId: btn.getAttribute('spotify-id'),
           playlistId: btn.getAttribute('playlist-id')
         };
-        fetch('/playlists/delete', {
+        fetch('/playlists', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

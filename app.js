@@ -102,7 +102,6 @@ app.get(authCallbackPath, async (req, res) => {
       const data = await spotifyApi.refreshAccessToken();
       const access_token = data.body['access_token'];
 
-      console.log('The access token has been refreshed!');
       spotifyApi.setAccessToken(access_token);
     }, expires_in / 2 * 1000);
 
@@ -186,7 +185,7 @@ app.get('/playlists', ensureLoggedIn, async (req, res) => {
  * The request body should contain the spotify id and the playlist id.
  * The response should be a JSON object with a message.
 */
-app.post('/playlists/delete', async (req, res) => {
+app.post('/playlists', async (req, res) => {
   console.log("testing");
   const spotifyApi = initializeSpotifyApi(req.session);
   const playlistId = req.body.playlistId;
