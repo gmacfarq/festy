@@ -190,7 +190,12 @@ app.post('/playlists', async (req, res) => {
   const spotifyApi = initializeSpotifyApi(req.session);
   const playlistId = req.body.playlistId;
   const spotifyId = req.body.spotifyId;
-  await spotifyApi.unfollowPlaylist(spotifyId);
+  try{
+    await spotifyApi.unfollowPlaylist(spotifyId);
+  }
+  catch (err) {
+    console.log(err);
+  }
   await User.deletePlaylist(playlistId);
   res.json({ message: 'Playlist deleted' });
 });
