@@ -41,11 +41,21 @@
     z-index: 2;
 }
 
+.no-playlists {
+    text-align: center;
+    color: white;
+    font-size: 24px;
+    font-family: Lexend, sans-serif;
+    font-weight: 700;
+    word-wrap: break-word;
+    z-index: 2;
+}
+
 .buttons-div {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     width: 30%;
     z-index: 2;
     gap: 20px;
@@ -98,4 +108,17 @@
 .playlist a:hover {
     color: #636AFF;
     text-decoration: none !important;
+}
+
+.open-mobile {
+    display: none;
+}
+
+@media screen and (max-width: 900x) {
+    .open-desktop {
+        display: none;
+    }
+    .open-mobile {
+        display: block;
+    }
 }

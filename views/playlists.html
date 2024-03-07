@@ -10,9 +10,14 @@
 <img class="wave" src="/images/wave-vertical.png" style="left: 65%;" />
 <img class="wave" src="/images/wave-vertical.png" style="left: 85%;" />
 
+<h1 class="title-text">My Festy Playlists</h1>
+
 <div class="playlist-container">
     {% if playlists|length == 0 %}
-    <h1>No Playlists Found</h1>
+    <h2 class="no-playlists">No Playlists Found!</h1>
+    <a class="create-playlist" href="/festivals">
+        <span> Find a Festival </span>
+    </a>
     {% endif %}
 
     {% for playlist in playlists %}
@@ -20,7 +25,10 @@
         <h2 class="playlist-title">{{ playlist.name }}</h2>
         <div class="buttons-div">
             <a class="button open-button" href="{{ playlist.url }}" target="blank">
-                <span> Open </span>
+                <span class="open-desktop"> Open </span>
+                <span class="open-mobile">
+                    <img src="/images/open-new.svg" />
+                </span>
             </a>
             <div class="button delete-button">
                 <span> Delete</span>
@@ -28,6 +36,6 @@
         </div>
     </div>
     {% endfor %}
-    
+
 </div>
 {% endblock %}
