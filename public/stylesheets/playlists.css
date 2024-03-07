@@ -96,6 +96,13 @@
     cursor: pointer;
 }
 
+.find-festival {
+    background-color: #636AFF;
+    color: white;
+    cursor: pointer;
+
+}
+
 .playlist-title{
     color: white;
     font-size: 20px;
@@ -120,7 +127,6 @@
 }
 
 .playlist a:hover {
-    color: #636AFF;
     text-decoration: none !important;
 }
 

@@ -16,10 +16,13 @@
 <div class="playlist-container">
     <h1 class="title-text">My Festy Playlists</h1>
     {% if playlists|length == 0 %}
-    <h2 class="no-playlists">No Playlists Found!</h1>
-    <a class="create-playlist" href="/festivals">
-        <span> Find a Festival </span>
-    </a>
+
+    <h2 class="no-playlists">No Playlists Found!</h2>
+    <div class="button find-festival">
+        <a class="create-playlist" href="/festivals">
+            <span> Find a Festival </span>
+        </a>
+    </div>
     {% endif %}
 
     {% for playlist in playlists %}
