@@ -150,7 +150,6 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    justify-self: center !important;
     gap: 80px;
     padding: 15px 0px;
     position: relative;
