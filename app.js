@@ -180,7 +180,7 @@ app.get('/playlists', ensureLoggedIn, async (req, res) => {
   res.render('playlists.html', { playlists: playlists, user: currUser });
 });
 
-/**POST /playlists/delete
+/**POST /playlists
  * Delete a playlist from the database and delete the playlist from spotify.
  * The request body should contain the spotify id and the playlist id.
  * The response should be a JSON object with a message.
@@ -190,12 +190,7 @@ app.post('/playlists', async (req, res) => {
   const spotifyApi = initializeSpotifyApi(req.session);
   const playlistId = req.body.playlistId;
   const spotifyId = req.body.spotifyId;
-  try {
-    await User.deletePlaylist(playlistId);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
+  await User.deletePlaylist(playlistId);
   try {
     await spotifyApi.unfollowPlaylist(spotifyId);
   } catch (error) {
@@ -216,7 +211,7 @@ app.get('/festivals', async (req, res) => {
 
     const currUser = req.session.currUser;
 
-    for (festival of festivals) {
+    for (let festival of festivals) {
       festival.date = festival.date.toISOString().split('T')[0];
     }
 
