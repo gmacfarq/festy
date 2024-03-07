@@ -187,7 +187,7 @@ app.get('/playlists', ensureLoggedIn, async (req, res) => {
  * The response should be a JSON object with a message.
 */
 app.post('/playlists', async (req, res) => {
-  console.log("testing");
+  
   const spotifyApi = initializeSpotifyApi(req.session);
   const playlistId = req.body.playlistId;
   const spotifyId = req.body.spotifyId;
