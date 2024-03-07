@@ -17,11 +17,17 @@
 
     {% for playlist in playlists %}
     <div class="playlist">
-        <h2>{{ playlist.name }}</h2>
-        <a href="{{ playlist.url }}" target="blank">
-            <p>Open in Spotify</p>
-        </a>
+        <h2 class="playlist-title">{{ playlist.name }}</h2>
+        <div class="buttons-div">
+            <a class="button open-button" href="{{ playlist.url }}" target="blank">
+                <span> Open </span>
+            </a>
+            <div class="button delete-button">
+                <span> Delete</span>
+            </div>
+        </div>
     </div>
     {% endfor %}
+    
 </div>
 {% endblock %}
