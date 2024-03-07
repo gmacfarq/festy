@@ -222,3 +222,10 @@ a:hover {
 .external-website p{
     margin: 0 !important;
 }
+
+.profile-photo {
+    border-radius: 30px;
+    object-fit: fill;
+    z-index: 2;
+}
+
