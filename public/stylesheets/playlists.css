@@ -114,7 +114,7 @@
     display: none;
 }
 
-@media screen and (max-width: 900x) {
+@media screen and (max-width: 900px) {
     .open-desktop {
         display: none;
     }
