@@ -210,3 +210,9 @@ a:hover {
     z-index: 2;
     animation: fadeOut 5s forwards;
 }
+
+.profile-photo {
+    border-radius: 30px;
+    object-fit: fill;
+    z-index: 2;
+}

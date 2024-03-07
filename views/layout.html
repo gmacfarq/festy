@@ -60,7 +60,11 @@
 			<div class="tab"><a href="/feed">Feed</a></div>
 			<div class="tab"><a href="/profile">Profile</a></div>
 		</div>
-		<div class="tab"><a href="/logout">Log Out</a></div>
+		<div class="tab">
+			<img class="profile-photo" src="{{ user.images[0].url }}" alt="Profile Picture" />
+			<a href="/logout">Log Out</a>
+		</div>
+
 		{% endif %}
 	</div>
 	<div class="content-frame">
