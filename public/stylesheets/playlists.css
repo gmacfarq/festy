@@ -113,6 +113,9 @@
 .open-mobile {
     display: none;
 }
+.delete-mobile {
+    display: none;
+}
 
 @media screen and (max-width: 900px) {
     .open-desktop {
@@ -121,7 +124,14 @@
     .open-mobile {
         display: block;
     }
+    .delete-desktop {
+        display: none;
+    }
+    .delete-mobile {
+        display: block;
+    }
     .playlist {
         width: 90%;
     }
+
 }
