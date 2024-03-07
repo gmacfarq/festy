@@ -121,4 +121,7 @@
     .open-mobile {
         display: block;
     }
+    .playlist {
+        width: 90%;
+    }
 }
