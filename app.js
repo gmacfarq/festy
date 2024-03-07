@@ -16,6 +16,7 @@ const authCallbackPath = '/auth/spotify/callback';
 
 const scopes = [
   'playlist-modify-public',
+  'playlist-modify-private',
 ],
   showDialog = true,
   responseType = 'token';
