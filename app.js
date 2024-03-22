@@ -101,10 +101,10 @@ app.get(authCallbackPath, async (req, res) => {
     setInterval(async () => {
       const data = await spotifyApi.refreshAccessToken();
       const access_token = data.body['access_token'];
-
+      console.log('The access token has been refreshed!');
       spotifyApi.setAccessToken(access_token);
     }, expires_in / 2 * 1000);
-
+    //TODO: ADD something to keep this from refreshing so often
 
     const user = await spotifyApi.getMe();
     req.session.currUser = user.body;
