@@ -11,7 +11,7 @@ const { shuffleArray } = require('./helpers/playlist');
 // const { default: axios } = require('axios');
 require('dotenv').config();
 
-const ec2Url = 'https://festy.live';
+const ec2Url = 'https://www.festy.live';
 const authCallbackPath = '/auth/spotify/callback';
 
 const scopes = [
@@ -101,7 +101,7 @@ app.get(authCallbackPath, async (req, res) => {
     setInterval(async () => {
       const data = await spotifyApi.refreshAccessToken();
       const access_token = data.body['access_token'];
-      console.log('The access token has been refreshed!');
+
       spotifyApi.setAccessToken(access_token);
     }, expires_in / 2 * 1000);
     //TODO: ADD something to keep this from refreshing so often
