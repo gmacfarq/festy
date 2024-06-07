@@ -8,8 +8,6 @@ const User = require('./models/user');
 const Festival = require('./models/festival');
 const Artist = require('./models/artist');
 const { shuffleArray } = require('./helpers/playlist');
-const e = require('express');
-// const { default: axios } = require('axios');
 require('dotenv').config();
 
 const ec2Url = 'https://www.festy.live';
