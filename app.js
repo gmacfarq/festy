@@ -65,10 +65,10 @@ app.use((req, res, next) => {
 app.get('/', async (req, res) => {
   const currUser = req.session.currUser;
   if (currUser) {
-    res.render('index.html', { user: currUser });
+    res.render('home.html', { user: currUser });
   }
   else {
-    res.render('index.html');
+    res.render('home.html');
   }
 });
 
@@ -380,7 +380,7 @@ function initializeSpotifyApi(session) {
     const spotifyApi = new SpotifyWebApi({
       clientId: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      redirectUri: ec2Url + authCallbackPath,
+      redirectUri: 'http://localhost:' + port + authCallbackPath,
     });
 
     // Set the access and refresh tokens for the Spotify API instance
