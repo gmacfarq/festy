@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-      fetch('/festivals/{{ festival.id }}', {
+      fetch('/festivals/{{ user.id }}', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

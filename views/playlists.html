@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="/stylesheets/playlists.css">
 {% endblock %}
 {% block content %}
+<script src="/javascripts/playlists.js"></script>
 
 <img class="wave" src="/images/wave-vertical.png" style="left: 5%;" />
 <img class="wave" src="/images/wave-vertical.png" style="left: 25%;" />
@@ -10,67 +11,39 @@
 <img class="wave" src="/images/wave-vertical.png" style="left: 65%;" />
 <img class="wave" src="/images/wave-vertical.png" style="left: 85%;" />
 
-<h1 class="title-text">My Festy Playlists</h1>
+
 
 <div class="playlist-container">
+    <h1 class="title-text">My Festy Playlists</h1>
+    {% if playlists|length == 0 %}
 
-    <!-- <h1>No Playlists Found</h1> -->
+    <h2 class="no-playlists">No Playlists Found!</h2>
+    <div class="button find-festival">
+        <a class="create-playlist" href="/festivals">
+            <span> Find a Festival </span>
+        </a>
+    </div>
+    {% endif %}
 
+    {% for playlist in playlists %}
+    <div class="playlist">
+        <h2 class="playlist-title">{{ playlist.name }}</h2>
+        <div class="buttons-div">
+            <a class="button open-button" href="{{ playlist.url }}" target="blank">
+                <span class="open-desktop"> Open </span>
+                <span class="open-mobile">
+                    <img src="/images/open-new.svg" />
+                </span>
+            </a>
+            <div playlist-id="{{playlist.id}}" spotify-id= "{{ playlist.playlist_spotify_id }}"" class="button delete-button">
+                <span class="delete-desktop"> Delete</span>
+                <span class="delete-mobile">
+                    <img src="/images/delete.svg" />
+                </span>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 
-    <div class="playlist">
-        <h2 class="playlist-title">Test Playlist</h2>
-        <div class="buttons-div">
-            <a class="button open-button" href="https://festy.live/" target="blank">
-                <span> Open </span>
-            </a>
-            <div class="button delete-button">
-                <span> Delete</span>
-            </div>
-        </div>
-    </div>
-    <div class="playlist">
-        <h2 class="playlist-title">Test Playlist</h2>
-        <div class="buttons-div">
-            <a class="button open-button" href="https://festy.live/" target="blank">
-                <span> Open </span>
-            </a>
-            <div class="button delete-button">
-                <span> Delete</span>
-            </div>
-        </div>
-    </div>
-    <div class="playlist">
-        <h2 class="playlist-title">Test Playlist</h2>
-        <div class="buttons-div">
-            <a class="button open-button" href="https://festy.live/" target="blank">
-                <span> Open </span>
-            </a>
-            <div class="button delete-button">
-                <span> Delete</span>
-            </div>
-        </div>
-    </div>
-    <div class="playlist">
-        <h2 class="playlist-title">Test Playlist</h2>
-        <div class="buttons-div">
-            <a class="button open-button" href="https://festy.live/" target="blank">
-                <span> Open </span>
-            </a>
-            <div class="button delete-button">
-                <span> Delete</span>
-            </div>
-        </div>
-    </div>
-    <div class="playlist">
-        <h2 class="playlist-title">Test Playlist</h2>
-        <div class="buttons-div">
-            <a class="button open-button" href="https://festy.live/" target="blank">
-                <span> Open </span>
-            </a>
-            <div class="button delete-button">
-                <span> Delete</span>
-            </div>
-        </div>
-    </div>
 </div>
 {% endblock %}

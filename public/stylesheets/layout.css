@@ -135,6 +135,9 @@ body {
     .nav-bar-mobile {
         display: flex;
     }
+    .built-by img{
+        display:none;
+    }
 }
 
 .festy-icon {
@@ -211,8 +214,21 @@ a:hover {
     animation: fadeOut 5s forwards;
 }
 
+.external-website{
+    display:flex;
+    align-items: center;
+}
+
+.external-website p{
+    margin: 0 !important;
+}
+
 .profile-photo {
     border-radius: 30px;
     object-fit: fill;
     z-index: 2;
+}
+
+.festy-icon-link {
+    width: 100px;
 }

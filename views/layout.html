@@ -16,7 +16,9 @@
 
 <body>
 	<div class="nav-bar-mobile">
-		<img class="festy-icon" src="/images/festy-icon.png" />
+		<a class="festy-icon-link" href="/">
+			<img class="festy-icon" src="/images/festy-icon.png" />
+		</a>
 		<img class="menu-icon" src="/images/menu-icon.svg" />
 	</div>
 	{% if flashMessage %}
@@ -29,7 +31,7 @@
 	{% if not user %}
 	<div class="dropdown">
 		<div class="tab"><a href="/festivals">Festivals</a></div>
-		<div class="tab"><a href="/">Home</a></div>
+		<!-- <div class="tab"><a href="/">Home</a></div> -->
 		<div class="tab"><a href="/feed">Feed</a></div>
 		<div class="tab"><a href="/login">Log In</a></div>
 	</div>
@@ -37,18 +39,20 @@
 	<div class="dropdown">
 		<div class="tab"><a href="/playlists">Playlists</a></div>
 		<div class="tab"><a href="/festivals">Festivals</a></div>
-		<div class="tab"><a href="/">Home</a></div>
+		<!-- <div class="tab"><a href="/">Home</a></div> -->
 		<div class="tab"><a href="/feed">Feed</a></div>
 		<div class="tab"><a href="/profile">Profile</a></div>
 		<div class="tab"><a href="/logout">Log Out</a></div>
 	</div>
 	{% endif %}
 	<div class="nav-bar">
-		<img class="festy-icon" src="/images/festy-icon.png" />
+		<a class="festy-icon-link" href="/">
+			<img class="festy-icon" src="/images/festy-icon.png" />
+		</a>
 		{% if not user %}
 		<div class="frame">
 			<div class="tab"><a href="/festivals">Festivals</a></div>
-			<div class="tab"><a href="/">Home</a></div>
+			<!-- <div class="tab"><a href="/">Home</a></div> -->
 			<div class="tab"><a href="/feed">Feed</a></div>
 		</div>
 		<div class="tab"><a href="/login">Log In</a></div>
@@ -56,7 +60,7 @@
 		<div class="frame">
 			<div class="tab"><a href="/playlists">Playlists</a></div>
 			<div class="tab"><a href="/festivals">Festivals</a></div>
-			<div class="tab"><a href="/">Home</a></div>
+			<!-- <div class="tab"><a href="/">Home</a></div> -->
 			<div class="tab"><a href="/feed">Feed</a></div>
 			<div class="tab"><a href="/profile">Profile</a></div>
 		</div>
@@ -64,7 +68,6 @@
 			<img class="profile-photo" src="{{ user.images[0].url }}" alt="Profile Picture" />
 			<a href="/logout">Log Out</a>
 		</div>
-
 		{% endif %}
 	</div>
 	<div class="content-frame">
@@ -78,9 +81,15 @@
 			</div>
 			<div class="built-by">
 				<h3>Built By </h3>
-				<p><a href="http://www.g-macfarquhar.com/" target="blank">Graham MacFarquhar</a></p>
+				<a href="http://www.g-macfarquhar.com/" target="blank">
+					<div class="external-website">
+						<p class="festival-information" target="blank">Graham MacFarquhar</p>
+						<img class="external-link" src="/images/open-new.svg" />
+					</div>
+				</a>
 			</div>
 		</div>
+	</div>
 	</div>
 
 </body>

@@ -4,11 +4,11 @@
 {% endblock %}
 {% block content %}
 
-<img class="wave" src="images/wave-vertical.png" style="left: 5%;" />
-<img class="wave" src="images/wave-vertical.png" style="left: 25%;" />
-<img class="wave" src="images/wave-vertical.png" style="left: 45%;" />
-<img class="wave" src="images/wave-vertical.png" style="left: 65%;" />
-<img class="wave" src="images/wave-vertical.png" style="left: 85%;" />
+<img class="wave" src="/images/wave-vertical.png" style="left: 5%;" />
+<img class="wave" src="/images/wave-vertical.png" style="left: 25%;" />
+<img class="wave" src="/images/wave-vertical.png" style="left: 45%;" />
+<img class="wave" src="/images/wave-vertical.png" style="left: 65%;" />
+<img class="wave" src="/images/wave-vertical.png" style="left: 85%;" />
 
 <div class="header">
   <h1 class="title-text">Upcoming Festivals</h1>
@@ -27,14 +27,17 @@
 
     <div class="festival-information-container">
       <div>
-        <p class="festival-information" >Date: {{ festival.date }}</p>
+        <p class="festival-information" >{{ festival.date }}</p>
       </div>
       <div>
-        <p class="festival-information" >Location: {{ festival.location }}</p>
+        <p class="festival-information" >{{ festival.location }}</p>
       </div>
       <div>
-        <a href="{{ festival.website }}">
-          <p class="festival-information" target="blank" > Website</p>
+        <a href="{{ festival.website }}"  target="blank">
+          <div class ="external-website">
+            <p class="festival-information"> Website</p>
+            <img class="external-link" src="/images/open-new.svg" />
+          </div>
         </a>
       </div>
     </div>

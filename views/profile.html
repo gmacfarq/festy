@@ -3,18 +3,17 @@
 {% endblock %}
 {% extends 'layout.html' %} {% block content %}
 
-    <img class="wave" src="images/wave-horizontal.png" style="top: 5%;" />
-    <img class="wave" src="images/wave-horizontal.png" style="top: 25%;" />
-    <img class="wave" src="images/wave-horizontal.png" style="top: 45%;" />
-    <img class="wave" src="images/wave-horizontal.png" style="top: 65%;" />
-    <img class="wave" src="images/wave-horizontal.png" style="top: 85%;" />
-<div class="profile-container">
-    <div class="wrapper-1">
-        <img class="profile-photo large-profile-photo" src="{{ user.images[1].url }}" alt="Profile Picture" />
-        <p>Profile:
-            <a href=" {{ user.profileUrl }}">{{ user.profileUrl }}</a>
-        </p>
-        <p>Display Name: {{ user.display_name }}</p>
-    </div>
+    <img class="wave" src="/images/wave-horizontal.png" style="top: 5%;" />
+    <img class="wave" src="/images/wave-horizontal.png" style="top: 25%;" />
+    <img class="wave" src="/images/wave-horizontal.png" style="top: 45%;" />
+    <img class="wave" src="/images/wave-horizontal.png" style="top: 65%;" />
+    <img class="wave" src="/images/wave-horizontal.png" style="top: 85%;" />
+
+<p>ID: {{ user.id }}</p>
+<p>Profile:
+    <a href=" {{ user.profileUrl }}">{{ user.profileUrl }}</a>
+</p>
+<div class="construction-container">
+    <h1 class="construction-text">Under Construction</h1>
 </div>
 {% endblock %}

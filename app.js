@@ -8,7 +8,6 @@ const User = require('./models/user');
 const Festival = require('./models/festival');
 const Artist = require('./models/artist');
 const { shuffleArray } = require('./helpers/playlist');
-// const { default: axios } = require('axios');
 require('dotenv').config();
 
 const port = process.env.PORT;
@@ -30,7 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitialized: true, cookie: { secure: false } }));
 
-var spotifyApi = new SpotifyWebApi({
+var masterSpotifyApi = new SpotifyWebApi({
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
   redirectUri: 'http://localhost:' + port + authCallbackPath,
@@ -64,8 +63,8 @@ app.use((req, res, next) => {
  * Render the home page.
  */
 app.get('/', async (req, res) => {
-  if (spotifyApi.getAccessToken()) {
-    const currUser = req.session.currUser;
+  const currUser = req.session.currUser;
+  if (currUser) {
     res.render('index.html', { user: currUser });
   }
   else {
@@ -77,7 +76,7 @@ app.get('/', async (req, res) => {
  * Redirect to the Spotify login page.
  */
 app.get('/login', (req, res) => {
-  res.redirect(spotifyApi.createAuthorizeURL(scopes));
+  res.redirect(masterSpotifyApi.createAuthorizeURL(scopes));
 });
 
 /** GET /auth/spotify/callback
@@ -87,40 +86,44 @@ app.get('/login', (req, res) => {
 app.get(authCallbackPath, async (req, res) => {
   try {
 
-    const { body } = await spotifyApi.authorizationCodeGrant(req.query.code);
-    spotifyApi.setAccessToken(body['access_token']);
-    spotifyApi.setRefreshToken(body['refresh_token']);
+    const { body } = await masterSpotifyApi.authorizationCodeGrant(req.query.code);
+    req.session.spotifyTokens = {
+      accessToken: body['access_token'],
+      refreshToken: body['refresh_token'],
+      expiresIn: body['expires_in']
+    };
+
     const expires_in = body['expires_in'];
 
+    const spotifyApi = initializeSpotifyApi(req.session);
 
     setInterval(async () => {
       const data = await spotifyApi.refreshAccessToken();
       const access_token = data.body['access_token'];
 
-      console.log('The access token has been refreshed!');
       spotifyApi.setAccessToken(access_token);
     }, expires_in / 2 * 1000);
-  }
+    //TODO: ADD something to keep this from refreshing so often
 
-  catch (err){
-    console.log('Error getting access token:', err);
+    const user = await spotifyApi.getMe();
+    req.session.currUser = user.body;
+
+    const spotifyUserId = user.body.id;
+    const userExists = await User.checkUserExists(spotifyUserId);
+
+    if (!userExists) {
+      const displayName = user.body.display_name;
+      await User.createUser(spotifyUserId, displayName);
+    }
+    userDBId = await User.getUserId(spotifyUserId);
+    req.session.currUser.dbid = userDBId.id;
+    const redirectUrl = req.session.redirectTo || '/';
+    res.redirect(redirectUrl);
+  }
+  catch (err) {
+    console.log('Error logging in:', err);
     res.status(500).send('Internal Server Error');
   }
-
-  user = await spotifyApi.getMe();
-  req.session.currUser = user.body;
-  console.log('User:', user.body);
-
-  const spotifyUserId = user.body.id;
-  const userExists = await User.checkUserExists(spotifyUserId);
-
-  if (!userExists) {
-    const displayName = user.body.display_name;
-    await User.createUser(spotifyUserId, displayName);
-  }
-
-  const redirectUrl = req.session.redirectTo || '/';
-  res.redirect(redirectUrl);
 
 });
 
@@ -134,8 +137,6 @@ app.get('/logout', (req, res) => {
     if (err) {
       console.error('Error destroying session:', err);
     }
-    spotifyApi.resetAccessToken();
-    spotifyApi.resetRefreshToken();
     res.redirect('/');
   });
 });
@@ -147,13 +148,55 @@ app.get('/logout', (req, res) => {
 app.get('/profile', ensureLoggedIn, async (req, res) => {
   const currUser = req.session.currUser;
 
+
   res.render('profile.html', { user: currUser });
 });
 
+/* GET /playlists
+* Retrieve all playlists for the current user.
+* The response should be a JSON object with the playlist data.
+*/
 app.get('/playlists', ensureLoggedIn, async (req, res) => {
-  const { body } = await spotifyApi.getUserPlaylists();
   const currUser = req.session.currUser;
-  res.render('playlists.html', { playlists: body.items, user: currUser });
+
+  const spotifyApi = initializeSpotifyApi(req.session);
+  const playlists = await User.getPlaylists(currUser.dbid);
+  for (let playlist of playlists) {
+    playlist.url = `https://open.spotify.com/playlist/${playlist.playlist_spotify_id}`;
+    if (playlist.created_at < Date.now() - 86400000) {
+      try {
+        await spotifyApi.getPlaylist(playlist.playlist_spotify_id);
+        User.updatePlaylistCreatedAt(playlist.id, Date.now());
+      }
+      catch {
+        await User.deletePlaylist(playlist.id);
+        playlists.splice(playlists.indexOf(playlist), 1);
+        continue;
+      }
+    }
+  }
+
+  res.render('playlists.html', { playlists: playlists, user: currUser });
+});
+
+/**POST /playlists
+ * Delete a playlist from the database and delete the playlist from spotify.
+ * The request body should contain the spotify id and the playlist id.
+ * The response should be a JSON object with a message.
+*/
+app.post('/playlists', async (req, res) => {
+  currUser = req.session.currUser;
+
+  const spotifyApi = initializeSpotifyApi(req.session);
+  const playlistId = req.body.playlistId;
+  const spotifyId = req.body.spotifyId;
+  await User.deletePlaylist(playlistId, currUser.dbid);
+  try {
+    await spotifyApi.unfollowPlaylist(spotifyId);
+  } catch (error) {
+    console.error('Error unfollowing playlist:', error);
+  }
+  res.json({ message: 'Playlist deleted' });
 });
 
 /** GET /festivals
@@ -168,7 +211,7 @@ app.get('/festivals', async (req, res) => {
 
     const currUser = req.session.currUser;
 
-    for (festival of festivals) {
+    for (let festival of festivals) {
       festival.date = festival.date.toISOString().split('T')[0];
     }
 
@@ -220,9 +263,12 @@ app.get('/festivals/:id', async (req, res) => {
 * If an error occurs, the response should have a 500 status code and an error message.
 */
 
-app.post('/festivals/:id', async (req, res) => {
+app.post('/festivals/:user', async (req, res) => {
 
   try {
+    const spotifyApi = initializeSpotifyApi(req.session);
+    const currUser = req.session.currUser;
+
     const artistIds = req.body.artistIds;
     const trackCounts = req.body.trackCounts;
     const festivalName = req.body.festivalName;
@@ -259,7 +305,7 @@ app.post('/festivals/:id', async (req, res) => {
           return topTracks.map(track => `spotify:track:${track.id}`);
         }
       }
-      let requestedTracks = shuffleArray(topTracks)
+      let requestedTracks = shuffleArray(topTracks);
       requestedTracks = requestedTracks.slice(0, count); // Get the first 'count' tracks
       return requestedTracks.map(track => `spotify:track:${track.track_spotify_id}`); // Extract track IDs
     };
@@ -289,7 +335,7 @@ app.post('/festivals/:id', async (req, res) => {
 
     // Add tracks to the playlist in batches
     await addTracksInBatches(allTrackUris, playlistId);
-
+    await User.addPlaylist(currUser.dbid, playlistId, `${festivalName} Playlist`);
     res.json({ message: 'Playlist created and tracks added!', playlistId: playlistId });
 
   } catch (err) {
@@ -321,6 +367,31 @@ function ensureLoggedIn(req, res, next) {
     return res.redirect('/');
   }
   next();
+}
+
+/**
+ * Initializes a SpotifyWebApi instance with credentials and tokens from the session.
+ * @param {Object} session - The HTTP session object.
+ * @returns {SpotifyWebApi} An instance of SpotifyWebApi or null if tokens are not available.
+ */
+function initializeSpotifyApi(session) {
+  // Check if the session has stored Spotify tokens
+  if (session && session.spotifyTokens) {
+    const spotifyApi = new SpotifyWebApi({
+      clientId: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      redirectUri: ec2Url + authCallbackPath,
+    });
+
+    // Set the access and refresh tokens for the Spotify API instance
+    spotifyApi.setAccessToken(session.spotifyTokens.accessToken);
+    spotifyApi.setRefreshToken(session.spotifyTokens.refreshToken);
+
+    return spotifyApi;
+  } else {
+    console.log("Spotify tokens are not available in the session.");
+    return null;
+  }
 }
 
 /** Handle 404 errors -- this matches everything */
