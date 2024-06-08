@@ -65,10 +65,10 @@ app.use((req, res, next) => {
 app.get('/', async (req, res) => {
   const currUser = req.session.currUser;
   if (currUser) {
-    res.render('home.html', { user: currUser });
+    res.render('index.html', { user: currUser });
   }
   else {
-    res.render('home.html');
+    res.render('index.html');
   }
 });
 
