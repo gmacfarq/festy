@@ -12,6 +12,15 @@
     }
 }
 
+button {
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+}
+
 .festival {
     width: 327px;
     height: 364px;
@@ -115,6 +124,10 @@
     border-radius: 10px;
     cursor: pointer;
     font-family: Lexend, sans-serif;
+}
+
+.artist:hover {
+    background: rgba(44, 44, 57, 0.5);
 }
 
 .artist .track-count {
